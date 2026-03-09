@@ -236,8 +236,8 @@ footer {
 
 /* ── MASONRY GRID ── */
 .masonry {
-    columns: 3 300px;
-    column-gap: 20px;
+    columns: 2;
+    column-gap: 40px;
     padding: calc(var(--nav-h) + 20px) 32px 60px;
 }
 
@@ -246,7 +246,7 @@ footer {
     position: relative;
     overflow: hidden;
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     text-decoration: none;
     cursor: pointer;
     animation: fadeUp 0.5s ease both;
