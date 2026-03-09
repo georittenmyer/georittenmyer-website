@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+
+const destinations = [
+  { id: 'taipei', title: 'Taipei', href: '/travel/taipei', cover: '13ef3cf9-2be1-4e41-837c-a23279db4d54/20241120_0029.jpg' },
+];
+
+const destData = destinations.map(d => ({
+  ...d,
+  cover: BASE + d.cover,
+}));
+---
+
+<Base title="Travel — Geo Rittenmyer">
+  <div class="masonry" id="travelGrid">
+    {destData.map((d, i) => (
+      <a href={d.href} class="card" style={`animation-delay: ${i * 40}ms`}>
+        <img src={d.cover} alt={d.title} loading="eager" />
+        <div class="card-label"><span>{d.title}</span></div>
+      </a>
+    ))}
+  </div>
+</Base>

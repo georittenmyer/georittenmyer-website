@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+
+const projects = [
+  { id: 'taipei', title: 'Taipei', images: [
+    '13ef3cf9-2be1-4e41-837c-a23279db4d54/20241120_0029.jpg',
+    '6f83db75-8145-4a60-b490-c32e11320507/20241120_0047.jpg',
+    'a27746e8-9e83-4129-a5e5-23f69df79449/20241120_0115-Pano-2.jpg',
+    '11aea938-16b2-4e12-a47c-c68cd2d3719d/20241120_0121.jpg',
+    'd1a85c86-fa6f-4556-b806-1965db0a9ba9/20241120_0139.jpg',
+    'a703839a-36a9-432a-ac62-a43da816e55c/20241120_0158-.jpg',
+    '993ffdb5-439e-4d8e-86bb-4acce7183f8b/20241120_0201.jpg',
+    '2958ee42-e5ea-49a8-9f4f-808c17633a33/20241120_0239.jpg',
+    '512d8349-c889-4d7b-b55c-76899391fbae/20241120_0282.jpg',
+    '289f5f0f-56d1-416a-8a0e-fb66e0a56768/20241121_0318.jpg',
+  ]},
+];
+
+const projectData = projects.map(p => ({
+  ...p,
+  images: p.images.map(img => BASE + img),
+  cover: BASE + p.images[0],
+}));
+---
+
+<Base title="Taipei — Geo Rittenmyer">
+  <div class="masonry" id="taipeiGrid">
+    {projectData.map((p, i) => (
+      <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-title={p.title}>
+        <img src={p.cover} alt={p.title} loading="eager" />
+        <div class="card-label"><span>{p.title}</span></div>
+      </div>
+    ))}
+  </div>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.card').forEach(card => {
+    const images: string[] = JSON.parse(card.dataset.images || '[]');
+    if (images.length > 1) {
+      const img = card.querySelector('img') as HTMLImageElement;
+      img.src = images[Math.floor(Math.random() * images.length)];
+    }
+  });
+</script>
