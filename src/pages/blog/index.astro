@@ -22,7 +22,7 @@ const sorted = posts.sort((a, b) =>
 
     <div class="post-grid">
       {sorted.map((post) => {
-        const { title, date, cover, description } = post.frontmatter;
+        const { title, date, cover, description, coverPosition = 'center' } = post.frontmatter;
         const slug = post.url;
         const formatted = new Date(date).toLocaleDateString('en-US', {
           year: 'numeric', month: 'long', day: 'numeric'
@@ -32,7 +32,7 @@ const sorted = posts.sort((a, b) =>
           <a href={slug} class="post-card">
             {cover && (
               <div class="post-thumb">
-                <img src={cover} alt={title} loading="lazy" />
+                <img src={cover} alt={title} loading="lazy" style={`object-position: ${coverPosition}`} />
               </div>
             )}
             <div class="post-info">
