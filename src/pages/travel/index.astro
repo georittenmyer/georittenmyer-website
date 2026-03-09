@@ -4,7 +4,12 @@ import Base from '../../layouts/Base.astro';
 const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
 
 const destinations = [
-  { id: 'taipei', title: 'Taipei', href: '/travel/taipei', cover: '13ef3cf9-2be1-4e41-837c-a23279db4d54/20241120_0029.jpg' },
+  { title: 'Taipei',   href: '/travel/taipei', cover: '13ef3cf9-2be1-4e41-837c-a23279db4d54/20241120_0029.jpg' },
+  { title: "Bali '24", href: '/travel/bali24',  cover: '8ad6cb44-54ab-4938-99f8-932bc40e8b7b/20241124_2404.jpg' },
+  { title: 'Bali',     href: '/travel/bali',    cover: '1367605698473-X98D0VGOFJUTPWST6QRY/Bali-1.jpg' },
+  { title: 'Cuba',     href: '/travel/cuba',    cover: '1368143693154-FBHYAB5U1X6RCXP6M3X6/20071130_0052.jpg' },
+  { title: 'Oahu',     href: '/travel/oahu',    cover: '1368169224516-VL7Y75GV4DJTKR58VM34/20130505_0148.jpg' },
+  { title: 'Kauai',    href: '/travel/kauai',   cover: '1439255076218-QSB0I84N3KBPP2ORAJD2/20150608_00438-Pano.jpg' },
 ];
 
 const destData = destinations.map(d => ({
@@ -17,7 +22,7 @@ const destData = destinations.map(d => ({
   <div class="masonry" id="travelGrid">
     {destData.map((d, i) => (
       <a href={d.href} class="card" style={`animation-delay: ${i * 40}ms`}>
-        <img src={d.cover} alt={d.title} loading="eager" />
+        <img src={d.cover} alt={d.title} loading={i < 4 ? 'eager' : 'lazy'} />
         <div class="card-label"><span>{d.title}</span></div>
       </a>
     ))}

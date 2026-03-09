@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+
+const projects = [
+  { id: 'cuba', title: 'Cuba', images: [
+    '1368143693154-FBHYAB5U1X6RCXP6M3X6/20071130_0052.jpg',
+    '1368143711607-SOG1AFH2OEI52OWQY1LR/20071130_0072.jpg',
+    '1368143757247-YJ80W0QWUE1G806EMITU/20071130_0216.jpg',
+    '1368143711069-JM9GFUT20D4HNQWOA3HR/20071130_0085.jpg',
+    '1368143753694-9P6JXIF38Z07VWJFB0H2/20071130_0254.jpg',
+    '1368143736093-2WLDQXJAQ65U6JBF1QJT/20071130_0179.jpg',
+    '1368143739235-H2LJO1W5QDYDTWGE3GKX/20071130_0164.jpg',
+    '1368143691163-22J5P5YXQ4FQIBAO7J5L/20071130_0055.jpg',
+    '1368143765888-9V9DC81OMX8CKUSKKBWT/20071201_0263.jpg',
+  ]},
+];
+
+const projectData = projects.map(p => ({
+  ...p,
+  images: p.images.map(img => BASE + img),
+  cover: BASE + p.images[0],
+}));
+---
+
+<Base title="Cuba — Geo Rittenmyer">
+  <div class="masonry" id="cubaGrid">
+    {projectData.map((p, i) => (
+      <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-title={p.title}>
+        <img src={p.cover} alt={p.title} loading="eager" />
+        <div class="card-label"><span>{p.title}</span></div>
+      </div>
+    ))}
+  </div>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.card').forEach(card => {
+    const images: string[] = JSON.parse(card.dataset.images || '[]');
+    if (images.length > 1) {
+      const img = card.querySelector('img') as HTMLImageElement;
+      img.src = images[Math.floor(Math.random() * images.length)];
+    }
+  });
+</script>

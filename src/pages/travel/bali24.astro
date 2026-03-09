@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+
+const projects = [
+  { id: 'bali24', title: 'Bali \'24', images: [
+    '8ad6cb44-54ab-4938-99f8-932bc40e8b7b/20241124_2404.jpg',
+    '7906a925-cce8-49ef-bd32-0d406c61ad45/20241124_2474.jpg',
+    '48a9ad11-7f15-4eba-998e-7b1a73805ab6/20241124_2594.jpg',
+    '8fb8e281-61d5-4138-90c5-d4cc1378e053/20241124_2681.jpg',
+    '246dc0eb-9bd2-4eac-bd61-896f7221c817/20241126_0071-Pano-2.jpg',
+    '7e261d2d-cc08-4c5b-85a5-f942a61e3106/20241126_3080-Pano.jpg',
+    '2d694051-2a45-4b61-935e-d7b1eeb1ca0a/20241126_3178-Pano-2.jpg',
+    '1f3fbd72-362e-469f-81ec-461910749bf1/20241126_3339.jpg',
+    'a8fe7250-e8e9-4905-8ce2-4255365f1907/20241126_3599.jpg',
+    '0058e0d4-44c8-4923-b67b-6d5a3485ca73/20241126_3652.jpg',
+    'd7eea0f1-1447-43b6-aa54-1e4e576dc18f/20241127_0173.jpg',
+    '6575d001-2219-457e-a22a-915c51fd73e3/20241127_0201.jpg',
+    '70446496-ea82-4da0-b0b5-0516aa48c090/20241124_2517.jpg',
+    '19865cd2-a86c-4a1c-aeaa-b6382a967c70/20241126_3093.jpg',
+    'c677260d-948a-492b-8daf-e7cc480396a7/20241122_2120.jpg',
+    'fba248c3-2167-41c3-a7f1-464ad3d25554/20241122_2052.jpg',
+    'd29d9f76-6442-4968-9619-aa9fbc9079f4/20241126_3183.jpg',
+  ]},
+];
+
+const projectData = projects.map(p => ({
+  ...p,
+  images: p.images.map(img => BASE + img),
+  cover: BASE + p.images[0],
+}));
+---
+
+<Base title="Bali '24 — Geo Rittenmyer">
+  <div class="masonry" id="bali24Grid">
+    {projectData.map((p, i) => (
+      <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-title={p.title}>
+        <img src={p.cover} alt={p.title} loading="eager" />
+        <div class="card-label"><span>{p.title}</span></div>
+      </div>
+    ))}
+  </div>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.card').forEach(card => {
+    const images: string[] = JSON.parse(card.dataset.images || '[]');
+    if (images.length > 1) {
+      const img = card.querySelector('img') as HTMLImageElement;
+      img.src = images[Math.floor(Math.random() * images.length)];
+    }
+  });
+</script>
