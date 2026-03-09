@@ -114,7 +114,7 @@ nav {
 .nav-instagram {
     display: flex;
     align-items: center;
-    color: var(--ink-soft);
+    color: var(--accent);
     transition: color 0.2s;
 }
 .nav-instagram:hover {
@@ -144,7 +144,7 @@ nav {
 
 .nav-links a:hover,
 .nav-links a[aria-current="page"] {
-    color: var(--ink);
+    color: var(--accent);
 }
 
 /* ── BURGER ── */
