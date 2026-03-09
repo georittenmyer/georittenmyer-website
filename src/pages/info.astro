@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+
+const clients = [
+  'Sesame Street Live','NBC Universal','Reader\'s Digest','Time Magazine','SeattleMet',
+  'Men\'s Journal','Sports Illustrated','ESPN Magazine','The Today Show','The Guardian',
+  'Lyft','Jurassic World','AMA Supercross','Jhane Barnes','Seven New York','Ralph Lauren',
+  'A&E','Voom-HD','Rainbow Media','New York Times Magazine','Cole & Weber United',
+  'Washington\'s Lottery','TBWA/Chiat/Day','AARP','Feld Entertainment','Ringling Bros',
+  'Disney','Marvel Universe Live','NYC Heart Gallery','Seattle Good Business Network',
+];
+---
+
+<Base
+  title="Info — Geo Rittenmyer"
+  description="Seattle-based photographer Geo Rittenmyer — available for editorial, event, and brand work."
+  ogImage="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/0881d0f4-aa7c-40d0-b52f-6eb1364664da/20231110_0155.jpg"
+>
+  <div class="info-page">
+
+    <div class="info-hero">
+      <img
+        class="info-portrait"
+        src="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/0881d0f4-aa7c-40d0-b52f-6eb1364664da/20231110_0155.jpg"
+        alt="Geo Rittenmyer"
+      />
+      <div class="info-bio">
+        <h2>Geo Rittenmyer</h2>
+        <p>Driven by the dance of light and the allure of narrative, Geo Rittenmyer is a visual artist trained at the Brooks Institute of Photography.</p>
+        <p>His commercial work spans editorial, advertising, and live event photography — with clients including ESPN, Sports Illustrated, Ralph Lauren, Disney, NBC Universal, and major advertising agencies.</p>
+        <p>Current projects include a personal landscape book combining photography with observations on global affairs. Based in Seattle with a fully equipped photo studio.</p>
+        <p>Stock imagery available through <a href="https://www.gallerystock.com" target="_blank" rel="noopener">Gallery Stock</a>.</p>
+        <div class="info-contact">
+          <a href="mailto:geo@georittenmyer.com">geo@georittenmyer.com</a>
+          <a href="mailto:studio@georittenmyer.com">studio@georittenmyer.com</a>
+          <a href="tel:+16465849860">(646) 584-9860</a>
+          <a href="https://www.instagram.com/georittenmyer/" target="_blank" rel="noopener">@georittenmyer</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-clients">
+      <p class="info-clients-label">Selected Clients</p>
+      <div class="marquee-track">
+        {clients.map(c => <span>{c}</span>)}
+        {clients.map(c => <span aria-hidden="true">{c}</span>)}
+      </div>
+    </div>
+
+  </div>
+</Base>

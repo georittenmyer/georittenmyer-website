@@ -1,0 +1,83 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = 'Seattle-based photographer Geo Rittenmyer — documentary and commercial work.', ogImage = '/images/og-default.jpg' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- OpenGraph / Social -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <style>
+    /* Inline critical styles for faster paint */
+    body { background: #f5f4f0; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">
+    <img
+      src="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/d646a719-cf1d-4c64-9548-decdf8041fe9/Logo_Left_Default.png?format=300w"
+      alt="Geo Rittenmyer"
+    />
+  </a>
+  <ul class="nav-links">
+    <li><a href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>The Work</a></li>
+    <li><a href="/info" aria-current={Astro.url.pathname === '/info' ? 'page' : undefined}>Info</a></li>
+    <li><a href="/blog" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a></li>
+  </ul>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">The Work</a>
+  <a href="/info">Info</a>
+  <a href="/blog">Blog</a>
+</div>
+
+<!-- PAGE CONTENT -->
+<main style="padding-top: var(--nav-h);">
+  <slot />
+</main>
+
+<footer>© Geo Rittenmyer — All Rights Reserved</footer>
+
+<script>
+  const burger = document.getElementById('burgerBtn');
+  const menu = document.getElementById('mobileMenu');
+  burger?.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    menu?.classList.toggle('open');
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Info — Geo Rittenmyer"
+  description="Seattle-based photographer Geo Rittenmyer — available for editorial, event, and brand work."
+>
+  <div class="info-page">
+    <h1>Geo Rittenmyer</h1>
+
+    <div class="info-body">
+      <p>
+        Seattle-based photographer working at the intersection of documentary and
+        commercial work. Available for editorial, event, and brand projects.
+      </p>
+      <p>
+        <!-- Add your full bio here -->
+        Update this section with your actual bio from georittenmyer.com/inform.
+      </p>
+    </div>
+
+    <div class="info-contact">
+      <h2>Get in Touch</h2>
+      <a href="mailto:your@email.com">your@email.com</a>
+      <a href="https://www.instagram.com/georittenmyer/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .info-page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin-bottom: 40px;
+  }
+
+  .info-body p {
+    font-size: 20px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 1.4em;
+  }
+
+  .info-contact {
+    margin-top: 56px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    padding-top: 40px;
+  }
+
+  .info-contact h2 {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .info-contact a {
+    display: block;
+    font-size: 22px;
+    font-weight: 300;
+    text-decoration: none;
+    color: var(--ink);
+    margin-bottom: 12px;
+    border-bottom: 1px solid transparent;
+    width: fit-content;
+    padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .info-contact a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .info-page { padding: 40px 20px 60px; }
+  }
+</style>

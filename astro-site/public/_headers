@@ -1,0 +1,20 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# HTML — short cache, always revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# CSS + JS — long cache (bust with filename hash when content changes)
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images — long cache
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable

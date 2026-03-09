@@ -1,0 +1,184 @@
+---
+import Base from './Base.astro';
+
+export interface Props {
+  title: string;
+  date: string;
+  description: string;
+  cover: string;
+}
+
+const { title, date, description, cover } = Astro.props;
+
+// Format date nicely
+const formatted = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric'
+});
+
+// JSON-LD structured data for Google
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "image": cover,
+  "datePublished": date,
+  "author": {
+    "@type": "Person",
+    "name": "Geo Rittenmyer",
+    "url": "https://georittenmyer.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Geo Rittenmyer"
+  }
+});
+---
+
+<Base title={`${title} — Geo Rittenmyer`} description={description} ogImage={cover}>
+  <script type="application/ld+json" set:html={jsonLd} slot="head" />
+
+  <article class="post">
+    <header class="post-header">
+      <a href="/blog" class="back-link">← All Posts</a>
+      <h1>{title}</h1>
+      <time datetime={date}>{formatted}</time>
+      {description && <p class="post-desc">{description}</p>}
+    </header>
+
+    {cover && (
+      <div class="post-cover">
+        <img src={cover} alt={title} loading="eager" />
+      </div>
+    )}
+
+    <div class="post-body">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .post-header {
+    margin-bottom: 40px;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  h1 {
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+
+  time {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+
+  .post-desc {
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-style: italic;
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+    margin-top: 20px;
+  }
+
+  .post-cover {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .post-cover img {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: cover;
+  }
+
+  /* ── Post body typography ── */
+  .post-body {
+    font-size: 20px;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .post-body :global(p) {
+    margin-bottom: 1.5em;
+  }
+
+  .post-body :global(h2) {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin: 2.5em 0 0.75em;
+  }
+
+  .post-body :global(h3) {
+    font-size: 22px;
+    font-weight: 300;
+    margin: 2em 0 0.5em;
+  }
+
+  .post-body :global(img) {
+    width: 100%;
+    height: auto;
+    margin: 2.5em 0;
+  }
+
+  /* Full-bleed images — add class="full" to your img in markdown */
+  .post-body :global(img.full) {
+    max-width: calc(100% + 64px);
+    margin-left: -32px;
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin: 2em 0;
+  }
+
+  .post-body :global(a) {
+    color: var(--ink);
+    border-bottom: 1px solid var(--accent);
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .post-body :global(a:hover) { border-color: var(--ink); }
+
+  @media (max-width: 640px) {
+    .post { padding: 32px 20px 60px; }
+    .post-body :global(img.full) {
+      max-width: calc(100% + 40px);
+      margin-left: -20px;
+    }
+  }
+</style>

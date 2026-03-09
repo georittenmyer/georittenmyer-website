@@ -76,7 +76,7 @@ For best performance, resize images to max 1800px wide before uploading.
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
 5. Click **Save and Deploy**
- 
+
 ### Every deploy after that
 
 Just push to GitHub:

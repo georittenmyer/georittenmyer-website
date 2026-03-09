@@ -5,67 +5,59 @@ Rebuild georittenmyer.com as a fast, self-hosted static site on Cloudflare Pages
 Replacing a Squarespace site — goal is lighter, faster, full control.
 
 ## Current State
-- `index.html` — single-file SPA (vanilla HTML/CSS/JS), no framework
-- Images still served from `images.squarespace-cdn.com` — **must be migrated**
-- Logo still served from Squarespace CDN — **must be self-hosted**
-- Font: Cormorant (Google Fonts — keep or self-host)
-- Note: `Suisse+Intl` in the Google Fonts URL does NOT exist on Google Fonts (commercial font by Swiss Typefaces). The current fallback chain handles this gracefully, but review font loading.
+- **Astro static site** — migrated from single-file SPA to Astro 4
+- Fonts: Sketchnote Square (titles) + Sarala (body) via Adobe Fonts Typekit `kgj2dsh`
+- Images still served from `images.squarespace-cdn.com` — must be migrated before going live
+- Logo still served from Squarespace CDN — must be self-hosted
 
 ## Architecture
-- Vanilla HTML/CSS/JS — no build step, no framework
-- Deploy target: **Cloudflare Pages** (static hosting)
-- Project data lives in `content/projects.json` (source of truth for galleries)
-- Info/bio content lives in `content/info.md`
+- **Astro 4** — static output, no SSR, no framework components
+- Deploy target: **Cloudflare Pages** (static hosting, build outputs to `dist/`)
+- Blog posts are Markdown files in `src/pages/blog/`
+- All styles in `src/styles/global.css`
+- Shared nav/head layout in `src/layouts/Base.astro`
+- Blog post layout in `src/layouts/BlogPost.astro`
 
 ## Site Structure
 | Page | Status |
 |------|--------|
-| The Work (portfolio grid) | ✅ in index.html |
-| Info/About | ✅ in index.html (stub), full content in content/info.md |
-| Blog | 🔲 not yet built |
+| The Work (portfolio grid) | ✅ `src/pages/index.astro` — 23 projects, random image on load |
+| Info/About | ✅ `src/pages/info.astro` — portrait, bio, client marquee |
+| Blog | ✅ `src/pages/blog/` — 20 posts migrated from Squarespace |
 
-## Projects (from live site)
-**Currently in index.html:** Ringling, Election Year, Ballard FC, Bad Jimmys, Project Selfie, Moon Landing, Sunglass Stories, DJ Hershe, The Saratoga, Chamber Choir, Jurassic Live, Portraits
-
-**Missing from index.html (on live site):** Odin, Disney, Kat Bell, Editorial, Marvel Live, State Fair, Wild Child, Middle of the Night, Season One, Lottery, Free Skate (Archive)
-
-## Key Priorities
-1. Migrate all images off Squarespace CDN → Cloudflare Images or `assets/images/`
-2. Self-host the logo SVG/PNG → `assets/images/logo.png`
-3. Extract CSS and JS from `index.html` into `assets/css/style.css` and `assets/js/main.js`
-4. Wire `index.html` to load project data from `content/projects.json`
-5. Build out missing projects
-6. Add Blog page
-7. Set up proper `_headers` for caching and security
+## Key Remaining Priorities
+1. Migrate all images off Squarespace CDN → Cloudflare Images or `public/images/projects/`
+2. Self-host logo → `public/images/logo.png`
+3. Update Cloudflare Pages build settings (see below)
+4. Add `_redirects` entries for old Squarespace blog URLs → new `/blog/*` paths
 
 ## File Structure
 ```
 /
-├── index.html
-├── CLAUDE.md
-├── README.md
-├── _headers              # Cloudflare cache + security headers
-├── _redirects            # URL redirects from old Squarespace paths
-├── assets/
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   └── main.js
-│   └── images/
-│       ├── logo.png      # Self-hosted logo (download from Squarespace CDN first)
-│       └── projects/     # One folder per project
-│           ├── ringling/
-│           ├── election/
-│           └── ...
-└── content/
-    ├── projects.json     # All project metadata + image paths
-    └── info.md           # Bio and contact content
+├── src/
+│   ├── layouts/
+│   │   ├── Base.astro        # Shared nav, head, footer
+│   │   └── BlogPost.astro    # Blog post template
+│   ├── pages/
+│   │   ├── index.astro       # Portfolio grid (23 projects)
+│   │   ├── info.astro        # Bio, portrait, client marquee
+│   │   └── blog/
+│   │       ├── index.astro   # Blog listing (auto-discovers .md files)
+│   │       └── *.md          # 20 blog posts
+│   └── styles/
+│       └── global.css        # All styles
+├── public/
+│   ├── _headers              # Cloudflare cache + security headers
+│   ├── _redirects            # URL redirects
+│   └── images/               # Self-hosted images (to be populated)
+├── astro.config.mjs
+└── package.json
 ```
 
 ## Cloudflare Pages Deploy
 - Connect GitHub repo → Cloudflare Pages dashboard
-- Build command: (none, static site)
-- Output directory: `/` (root)
+- **Build command: `npm run build`**
+- **Output directory: `dist`**
 - Custom domain: georittenmyer.com
 
 ## Contact

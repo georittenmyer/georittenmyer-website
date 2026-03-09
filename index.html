@@ -13,13 +13,17 @@
       --ink: #1a1916;
       --ink-soft: #6b6a66;
       --accent: #c8a96e;
-      --nav-h: 56px;
+      --nav-h: 96px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image:
+        repeating-linear-gradient(0deg,   transparent, transparent 39px, rgba(60,55,45,0.07) 39px, rgba(60,55,45,0.07) 40px),
+        repeating-linear-gradient(90deg,  transparent, transparent 39px, rgba(60,55,45,0.07) 39px, rgba(60,55,45,0.07) 40px);
+      background-attachment: fixed;
       color: var(--ink);
       font-family: sarala, sans-serif;
       font-weight: 400;
@@ -31,26 +35,64 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       height: var(--nav-h);
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
+      padding: 0 64px;
       background: var(--bg);
       z-index: 100;
       border-bottom: 1px solid rgba(0,0,0,0.07);
     }
 
+    .nav-left {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 10px;
       text-decoration: none;
+      justify-content: center;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { transform: scale(1);     opacity: 1; }
+      50%       { transform: scale(1.06); opacity: 0.75; }
     }
 
     .nav-logo img {
-      height: 28px;
+      height: 48px;
       width: auto;
       display: block;
+      animation: logoPulse 4s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    .nav-logo img:hover {
+      animation-play-state: paused;
+      opacity: 0.6;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .nav-instagram {
+      display: flex;
+      align-items: center;
+      color: var(--ink-soft);
+      transition: color 0.2s;
+    }
+
+    .nav-instagram:hover { color: var(--ink); }
+
+    .nav-instagram svg {
+      width: 26px;
+      height: 26px;
     }
 
     .nav-links {
@@ -61,10 +103,10 @@
 
     .nav-links a {
       text-decoration: none;
-      font-family: sarala, sans-serif;
+      font-family: sketchnote-square, sans-serif;
       font-weight: 400;
-      font-size: 15px;
-      letter-spacing: 0.08em;
+      font-size: 16px;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--ink-soft);
       transition: color 0.2s;
@@ -119,7 +161,10 @@
     }
 
     @media (max-width: 640px) {
-      .nav-links { display: none; }
+      nav { grid-template-columns: 1fr auto 1fr; }
+      .nav-left { visibility: hidden; }
+      .nav-logo { justify-content: center; }
+      .nav-instagram { display: none; }
       .burger { display: flex; }
     }
 
@@ -237,23 +282,43 @@
     }
 
     /* ── INFO PAGE ── */
+    /* ── INFO PAGE ── */
     #page-info {
-      max-width: 680px;
+      padding: calc(var(--nav-h) + 60px) 64px 80px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: calc(var(--nav-h) + 60px) 32px 80px;
     }
 
-    #page-info h2 {
+    .info-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-bottom: 80px;
+    }
+
+    .info-portrait {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+    }
+
+    .info-bio {
+      padding-top: 16px;
+    }
+
+    .info-bio h2 {
       font-family: sketchnote-square, sans-serif;
-      font-size: clamp(32px, 5vw, 56px);
+      font-size: clamp(28px, 3.5vw, 48px);
       font-weight: 400;
+      letter-spacing: 0.02em;
       margin-bottom: 32px;
-      letter-spacing: -0.01em;
     }
 
-    #page-info p {
-      font-size: 19px;
-      line-height: 1.7;
+    .info-bio p {
+      font-size: 18px;
+      line-height: 1.8;
       color: var(--ink-soft);
       margin-bottom: 20px;
     }
@@ -262,24 +327,75 @@
       margin-top: 48px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .info-contact a {
-      font-family: sarala, sans-serif;
-      font-size: 16px;
+      font-family: sketchnote-square, sans-serif;
+      font-size: 13px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--ink);
       text-decoration: none;
       border-bottom: 1px solid var(--ink);
-      padding-bottom: 2px;
+      padding-bottom: 3px;
       width: fit-content;
       transition: color 0.2s, border-color 0.2s;
     }
+
     .info-contact a:hover {
       color: var(--accent);
       border-color: var(--accent);
+    }
+
+    /* ── CLIENT MARQUEE ── */
+    .info-clients {
+      border-top: 1px solid rgba(0,0,0,0.1);
+      padding-top: 40px;
+      overflow: hidden;
+    }
+
+    .info-clients-label {
+      font-family: sketchnote-square, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 20px;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 40s linear infinite;
+    }
+
+    .marquee-track:hover { animation-play-state: paused; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .marquee-track span {
+      font-family: sarala, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      white-space: nowrap;
+      padding: 0 32px;
+    }
+
+    .marquee-track span::after {
+      content: '·';
+      margin-left: 32px;
+    }
+
+    @media (max-width: 768px) {
+      #page-info { padding: calc(var(--nav-h) + 40px) 24px 60px; }
+      .info-hero { grid-template-columns: 1fr; gap: 40px; }
+      .info-portrait { aspect-ratio: 3/2; }
     }
 
     /* ── FOOTER ── */
@@ -311,16 +427,27 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#" onclick="showPage('work'); return false;">
+  <div class="nav-left">
+    <ul class="nav-links">
+      <li><a href="#" id="nav-work" class="active" onclick="showPage('work'); return false;">The Work</a></li>
+      <li><a href="#" id="nav-info" onclick="showPage('info'); return false;">Info</a></li>
+    </ul>
+  </div>
+  <a class="nav-logo" href="#" onclick="location.reload(); return false;">
     <img src="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/d646a719-cf1d-4c64-9548-decdf8041fe9/Logo_Left_Default.png?format=300w" alt="Geo Rittenmyer">
   </a>
-  <ul class="nav-links">
-    <li><a href="#" id="nav-work" class="active" onclick="showPage('work'); return false;">The Work</a></li>
-    <li><a href="#" id="nav-info" onclick="showPage('info'); return false;">Info</a></li>
-  </ul>
-  <button class="burger" id="burgerBtn" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <a class="nav-instagram" href="https://www.instagram.com/georittenmyer/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
@@ -344,14 +471,32 @@
 
 <!-- INFO PAGE -->
 <div class="page" id="page-info">
-  <h2>Geo Rittenmyer</h2>
-  <p>Seattle-based photographer working at the intersection of documentary and commercial work. Available for editorial, event, and brand projects.</p>
-  <p>For inquiries, licensing, or just to say hello:</p>
-  <div class="info-contact">
-    <a href="https://georittenmyer.com/inform" target="_blank">Full Bio & Info ↗</a>
-    <a href="mailto:geo@georittenmyer.com">Email Geo</a>
-    <a href="https://www.instagram.com/georittenmyer/" target="_blank">Instagram</a>
+
+  <div class="info-hero">
+    <img class="info-portrait"
+      src="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/0881d0f4-aa7c-40d0-b52f-6eb1364664da/20231110_0155.jpg"
+      alt="Geo Rittenmyer">
+
+    <div class="info-bio">
+      <h2>Geo Rittenmyer</h2>
+      <p>Driven by the dance of light and the allure of narrative, Geo Rittenmyer is a visual artist trained at the Brooks Institute of Photography.</p>
+      <p>His commercial work spans editorial, advertising, and live event photography — with clients including ESPN, Sports Illustrated, Ralph Lauren, Disney, NBC Universal, and major advertising agencies.</p>
+      <p>Current projects include a personal landscape book combining photography with observations on global affairs. Based in Seattle with a fully equipped photo studio.</p>
+      <p>Stock imagery available through <a href="https://www.gallerystock.com" target="_blank" rel="noopener" style="color:inherit;border-bottom:1px solid currentColor;text-decoration:none;">Gallery Stock</a>.</p>
+      <div class="info-contact">
+        <a href="mailto:geo@georittenmyer.com">geo@georittenmyer.com</a>
+        <a href="mailto:studio@georittenmyer.com">studio@georittenmyer.com</a>
+        <a href="tel:+16465849860">(646) 584-9860</a>
+        <a href="https://www.instagram.com/georittenmyer/" target="_blank" rel="noopener">@georittenmyer</a>
+      </div>
+    </div>
   </div>
+
+  <div class="info-clients">
+    <p class="info-clients-label">Selected Clients</p>
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
 </div>
 
 <footer>© Geo Rittenmyer — All Rights Reserved</footer>
@@ -773,6 +918,22 @@ function closeMobile() {
   burger.classList.remove('open');
   mobileMenu.classList.remove('open');
 }
+
+// ── MARQUEE ──
+const clients = [
+  'Sesame Street Live','NBC Universal','Reader\'s Digest','Time Magazine','SeattleMet',
+  'Men\'s Journal','Sports Illustrated','ESPN Magazine','The Today Show','The Guardian',
+  'Lyft','Jurassic World','AMA Supercross','Jhane Barnes','Seven New York','Ralph Lauren',
+  'A&E','Voom-HD','Rainbow Media','New York Times Magazine','Cole & Weber United',
+  'Washington\'s Lottery','TBWA/Chiat/Day','AARP','Feld Entertainment','Ringling Bros',
+  'Disney','Marvel Universe Live','NYC Heart Gallery','Seattle Good Business Network'
+];
+(function buildMarquee() {
+  const track = document.getElementById('marqueeTrack');
+  if (!track) return;
+  const html = clients.map(c => `<span>${c}</span>`).join('');
+  track.innerHTML = html + html; // duplicate for seamless loop
+})();
 
 // ── INIT ──
 renderGrid();

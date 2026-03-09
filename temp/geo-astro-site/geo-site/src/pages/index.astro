@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+
+const projects = [
+  { id: 'ringling',      title: 'Ringling',         cover: BASE + 'GIF05-900.gif' },
+  { id: 'election',      title: 'Election Year',     cover: BASE + '1713818344933-WM7CALOVYN33VSB6XM5Y/20180421_00060-2.jpg?format=800w' },
+  { id: 'ballardfc',     title: 'Ballard FC',        cover: BASE + '1713818838544-Z99P5OBW9QBKMCTZUJN2/20230516_0444.jpg?format=800w' },
+  { id: 'badjimmys',     title: 'Bad Jimmys',        cover: BASE + '1713819779821-K1AD12Z2Z04VJXI46ZU7/Pour_01.gif' },
+  { id: 'selfie',        title: 'Project Selfie',    cover: BASE + '1713819998906-5I0EVHEBONQU5YV8RT1T/20190409_0543-Pano-2.jpg?format=800w' },
+  { id: 'moonlanding',   title: 'Moon Landing',      cover: BASE + '1713820235245-Y4FTKR027ZJK5SQOF1LS/build_100.jpg?format=800w' },
+  { id: 'sunglass',      title: 'Sunglass Stories',  cover: BASE + '1713820271909-WDTKISV09N0TA8YR5PZ3/Sunglasses0721.jpg?format=800w' },
+  { id: 'djhershe',      title: 'DJ Hershe',         cover: BASE + '1713820330741-2NZYN7JGO10U6HP81S40/20200825_5240.jpg?format=800w' },
+  { id: 'saratoga',      title: 'The Saratoga',      cover: BASE + '1713820765625-PPQ51L7GUC9DN31M3NZ5/SunsetWake-01.gif' },
+  { id: 'chamberchoir',  title: 'Chamber Choir',     cover: BASE + '1713820932695-TN34OPOAMTV3YYMXFMJB/ChoirProject_00258-Edit.jpg?format=800w' },
+  { id: 'jurassic',      title: 'Jurassic Live',     cover: BASE + '1705038815740-ZT7HDQU1F8199ACCN0E7/JWLT_20190923_00179.jpg?format=800w' },
+  { id: 'portraits',     title: 'Portraits',         cover: BASE + '1713818461286-BET0O5N41IMSW1Y3DRI4/20170604_0553.jpg?format=800w' },
+];
+---
+
+<Base title="Geo Rittenmyer — The Work">
+  <div class="masonry">
+    {projects.map((p, i) => (
+      <a href={`/the-work/${p.id}`} class="card" style={`animation-delay: ${i * 40}ms`}>
+        <img src={p.cover} alt={p.title} loading={i < 4 ? 'eager' : 'lazy'} />
+        <div class="card-label"><span>{p.title}</span></div>
+      </a>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .masonry {
+    columns: 3 280px;
+    column-gap: 8px;
+    padding: 16px 8px 60px;
+  }
+
+  .card {
+    break-inside: avoid;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin-bottom: 8px;
+    text-decoration: none;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .card:hover img { transform: scale(1.03); }
+
+  .card-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(20,18,14,0.55) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .card:hover .card-label { opacity: 1; }
+
+  .card-label span {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
