@@ -139,12 +139,125 @@ import "../styles/global.css";
             </div>
         </footer>
 
+        <!-- Lightbox -->
+        <div id="lightbox" class="lightbox" aria-hidden="true">
+            <div class="lb-header">
+                <span class="lb-title" id="lb-title"></span>
+                <button class="lb-close lb-key-btn" aria-label="Close">ESC</button>
+            </div>
+            <div class="lb-grid" id="lb-grid"></div>
+            <!-- Single image zoom view -->
+            <div class="lb-zoom" id="lb-zoom">
+                <button class="lb-zoom-close lb-key-btn" aria-label="Back to grid">ESC</button>
+                <button class="lb-prev lb-key-btn" aria-label="Previous">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 4 6 9 11 14"/></svg>
+                </button>
+                <button class="lb-next lb-key-btn" aria-label="Next">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 4 12 9 7 14"/></svg>
+                </button>
+                <div class="lb-zoom-wrap">
+                    <img id="lb-zoom-img" src="" alt="" />
+                </div>
+                <div class="lb-counter" id="lb-counter"></div>
+            </div>
+        </div>
+
         <script>
+            // Burger menu
             const burger = document.getElementById("burgerBtn");
             const menu = document.getElementById("mobileMenu");
             burger?.addEventListener("click", () => {
                 burger.classList.toggle("open");
                 menu?.classList.toggle("open");
+            });
+
+            // Lightbox
+            const lightbox  = document.getElementById("lightbox")!;
+            const lbGrid    = document.getElementById("lb-grid")!;
+            const lbTitle   = document.getElementById("lb-title")!;
+            const lbZoom    = document.getElementById("lb-zoom")!;
+            const lbZoomImg = document.getElementById("lb-zoom-img") as HTMLImageElement;
+            const lbCounter = document.getElementById("lb-counter")!;
+            const lbClose   = lightbox.querySelector(".lb-close") as HTMLButtonElement;
+            const lbZoomClose = lightbox.querySelector(".lb-zoom-close") as HTMLButtonElement;
+            const lbPrev    = lightbox.querySelector(".lb-prev") as HTMLButtonElement;
+            const lbNext    = lightbox.querySelector(".lb-next") as HTMLButtonElement;
+
+            let images: string[] = [];
+            let current = 0;
+
+            function openLightbox(imgs: string[], title: string) {
+                images = imgs;
+                lbTitle.textContent = title;
+                // Build grid
+                lbGrid.innerHTML = "";
+                imgs.forEach((src, i) => {
+                    const img = document.createElement("img");
+                    img.src = src;
+                    img.alt = title;
+                    img.loading = "lazy";
+                    img.addEventListener("click", () => openZoom(i));
+                    lbGrid.appendChild(img);
+                });
+                lbZoom.classList.remove("open");
+                lightbox.classList.add("open");
+                lightbox.setAttribute("aria-hidden", "false");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove("open");
+                lightbox.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+                lbZoom.classList.remove("open");
+            }
+
+            function openZoom(index: number) {
+                current = index;
+                showZoom();
+                lbZoom.classList.add("open");
+            }
+
+            function showZoom() {
+                lbZoomImg.src = images[current];
+                lbCounter.textContent = `${current + 1} / ${images.length}`;
+            }
+
+            lbPrev.addEventListener("click", () => { current = (current - 1 + images.length) % images.length; showZoom(); });
+            lbNext.addEventListener("click", () => { current = (current + 1) % images.length; showZoom(); });
+            lbClose.addEventListener("click", closeLightbox);
+            lbZoomClose.addEventListener("click", () => lbZoom.classList.remove("open"));
+
+            // Click backdrop to close
+            lightbox.addEventListener("click", (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+            lbZoom.addEventListener("click", (e) => {
+                if (e.target === lbZoom || (e.target as HTMLElement).classList.contains("lb-zoom-wrap")) {
+                    lbZoom.classList.remove("open");
+                }
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (!lightbox.classList.contains("open")) return;
+                if (e.key === "Escape") {
+                    if (lbZoom.classList.contains("open")) lbZoom.classList.remove("open");
+                    else closeLightbox();
+                }
+                if (!lbZoom.classList.contains("open")) return;
+                if (e.key === "ArrowLeft")  { current = (current - 1 + images.length) % images.length; showZoom(); }
+                if (e.key === "ArrowRight") { current = (current + 1) % images.length; showZoom(); }
+            });
+
+            // Open lightbox on card click (only div cards with data-images, not <a> link cards)
+            document.addEventListener("click", (e) => {
+                const card = (e.target as HTMLElement).closest(".card");
+                if (!card || card.tagName === "A" || !card.hasAttribute("data-images")) return;
+                e.preventDefault();
+                const imgs: string[] = JSON.parse(card.getAttribute("data-images") || "[]");
+                const title = card.getAttribute("data-title") || "";
+                if (imgs.length === 0) return;
+                openLightbox(imgs, title);
             });
         </script>
     </body>
