@@ -123,7 +123,7 @@ const clients = [
                         modal.classList.add("open");
                         modal.setAttribute("aria-hidden", "false");
                         document.body.style.overflow = "hidden";
-                        (document.getElementById("askName") as HTMLInputElement).focus();
+                        (document.getElementById("askEmail") as HTMLInputElement).focus();
                     }
 
                     function closeModal() {
@@ -172,22 +172,25 @@ const clients = [
             </div>
         </div>
     </div>
-</Base>
 
-<!-- ── Ask a Question Modal ── -->
-<div id="askModal" class="ask-modal" aria-hidden="true">
-    <div class="ask-modal-box">
-        <button class="ask-modal-close" id="askModalClose" aria-label="Close">ESC</button>
-        <p class="ask-modal-title">Ask me anything</p>
-        <form id="askForm">
-            <input type="text" id="askName" name="from_name" placeholder="Your name" required />
-            <input type="email" id="askEmail" name="from_email" placeholder="Your email (optional)" />
-            <textarea id="askQuestion" name="question" placeholder="What's on your mind?" rows="5" required></textarea>
-            <button type="submit" id="askSubmit">Send question</button>
-            <p class="ask-status" id="askStatus"></p>
-        </form>
+    <!-- ── Ask a Question Modal ── -->
+    <div id="askModal" class="ask-modal" aria-hidden="true">
+        <div class="ask-modal-header">
+            <span class="ask-modal-title">Ask me anything</span>
+            <button class="lb-key-btn ask-modal-close" id="askModalClose" aria-label="Close">ESC</button>
+        </div>
+        <div class="ask-modal-body">
+            <form id="askForm">
+                <input type="email" id="askEmail" name="from_email" placeholder="Your email" required />
+                <textarea id="askQuestion" name="question" placeholder="What's on your mind?" rows="6" required></textarea>
+                <div class="ask-modal-footer">
+                    <button type="submit" id="askSubmit">Send</button>
+                    <p class="ask-status" id="askStatus"></p>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</Base>
 
 <style>
     .info-page {
@@ -199,7 +202,7 @@ const clients = [
     /* ── Side-by-side layout ── */
     .layout {
         display: grid;
-        grid-template-columns: minmax(0, 600px) 1fr;
+        grid-template-columns: clamp(450px, 50vw, 800px) 1fr;
         gap: 6%;
         align-items: start;
     }
@@ -367,7 +370,7 @@ const clients = [
     }
 
     .partner-label {
-        font-size: 10px;
+        font-size: 12px;
         letter-spacing: 0.13em;
         text-transform: uppercase;
         color: var(--ink-soft);
@@ -375,7 +378,7 @@ const clients = [
     }
 
     .partners-col img {
-        height: 44px;
+        height: 56px;
         width: auto;
         opacity: 0.65;
         transition: opacity 0.2s;
@@ -425,68 +428,63 @@ const clients = [
         position: fixed;
         inset: 0;
         z-index: 600;
-        background: rgba(240, 237, 229, 0.92);
-        backdrop-filter: blur(6px);
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
+        background: var(--bg);
+        flex-direction: column;
     }
     .ask-modal.open {
         display: flex;
     }
 
-    .ask-modal-box {
-        background: var(--bg);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        padding: 40px;
-        width: 100%;
-        max-width: 480px;
-        position: relative;
+    .ask-modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        height: var(--nav-h);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        flex-shrink: 0;
     }
-
-    .ask-modal-close {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        font-family: sketchnote-square, sans-serif;
-        font-size: 10px;
-        letter-spacing: 0.12em;
-        color: var(--ink-soft);
-        background: none;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        padding: 4px 8px;
-        cursor: pointer;
-        transition: color 0.2s;
-    }
-    .ask-modal-close:hover { color: var(--ink); }
 
     .ask-modal-title {
         font-family: sketchnote-square, sans-serif;
-        font-size: 18px;
-        letter-spacing: 0.04em;
-        margin-bottom: 24px;
+        font-size: 16px;
+        letter-spacing: 0.06em;
         color: var(--ink);
+    }
+
+    .ask-modal-close {
+        cursor: pointer;
+    }
+
+    .ask-modal-body {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 24px;
     }
 
     #askForm {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 16px;
+        width: 100%;
+        max-width: 560px;
     }
 
     #askForm input,
     #askForm textarea {
         width: 100%;
-        padding: 10px 14px;
+        padding: 14px 18px;
         font-family: sarala, sans-serif;
-        font-size: 15px;
+        font-size: 16px;
         color: var(--ink);
         background: transparent;
         border: 1px solid rgba(0, 0, 0, 0.15);
         outline: none;
         transition: border-color 0.2s;
         box-sizing: border-box;
-        resize: vertical;
+        resize: none;
     }
     #askForm input:focus,
     #askForm textarea:focus {
@@ -495,7 +493,13 @@ const clients = [
     #askForm input::placeholder,
     #askForm textarea::placeholder {
         color: var(--ink-soft);
-        opacity: 0.6;
+        opacity: 0.5;
+    }
+
+    .ask-modal-footer {
+        display: flex;
+        align-items: center;
+        gap: 20px;
     }
 
     #askSubmit {
@@ -503,13 +507,13 @@ const clients = [
         font-size: 11px;
         letter-spacing: 0.13em;
         text-transform: uppercase;
-        padding: 12px 24px;
+        padding: 12px 28px;
         background: var(--ink);
         color: var(--bg);
         border: none;
         cursor: pointer;
         transition: opacity 0.2s;
-        align-self: flex-start;
+        flex-shrink: 0;
     }
     #askSubmit:hover { opacity: 0.75; }
     #askSubmit:disabled { opacity: 0.4; cursor: default; }
@@ -517,7 +521,6 @@ const clients = [
     .ask-status {
         font-size: 13px;
         color: var(--ink-soft);
-        min-height: 18px;
     }
     .ask-status.success { color: #4caf50; }
     .ask-status.error   { color: #c0392b; }
