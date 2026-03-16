@@ -228,9 +228,12 @@ import "../styles/global.css";
             lbClose.addEventListener("click", closeLightbox);
             lbZoomClose.addEventListener("click", () => lbZoom.classList.remove("open"));
 
-            // Click backdrop to close
+            // Click backdrop to close (except on images or buttons)
             lightbox.addEventListener("click", (e) => {
-                if (e.target === lightbox) closeLightbox();
+                const target = e.target as HTMLElement;
+                if (target === lightbox || (!target.closest("img") && !target.closest("button"))) {
+                    closeLightbox();
+                }
             });
             lbZoom.addEventListener("click", (e) => {
                 if (e.target === lbZoom || (e.target as HTMLElement).classList.contains("lb-zoom-wrap")) {

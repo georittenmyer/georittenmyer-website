@@ -33,6 +33,7 @@ const projects = [
 const projectData = projects.map(p => ({
   ...p,
   images: p.images.map(img => BASE + img),
+  coverImages: p.images.slice(0, 3).map(img => BASE + img),
   cover: BASE + p.images[0],
 }));
 ---
@@ -40,7 +41,7 @@ const projectData = projects.map(p => ({
 <Base title="Geo Rittenmyer — The Work">
   <div class="masonry" id="mainGrid">
     {projectData.map((p, i) => (
-      <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-title={p.title}>
+      <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-cover-images={JSON.stringify(p.coverImages)} data-title={p.title}>
         <img src={p.cover} alt={p.title} loading={i < 4 ? 'eager' : 'lazy'} />
         <div class="card-label"><span>{p.title}</span></div>
       </div>
@@ -49,12 +50,12 @@ const projectData = projects.map(p => ({
 </Base>
 
 <script>
-  // Randomize cover image on each page load
+  // Randomize cover image on each page load (from first 3 images only)
   document.querySelectorAll<HTMLElement>('.card').forEach(card => {
-    const images: string[] = JSON.parse(card.dataset.images || '[]');
-    if (images.length > 1) {
+    const coverImages: string[] = JSON.parse(card.dataset.coverImages || '[]');
+    if (coverImages.length > 1) {
       const img = card.querySelector('img') as HTMLImageElement;
-      img.src = images[Math.floor(Math.random() * images.length)];
+      img.src = coverImages[Math.floor(Math.random() * coverImages.length)];
     }
   });
 </script>
