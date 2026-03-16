@@ -346,6 +346,12 @@ footer {
     text-align: center;
 }
 
+@media (max-width: 1000px) {
+    .masonry {
+        columns: 2;
+    }
+}
+
 /* ── INFO PAGE ── */
 .info-page {
     padding: calc(var(--nav-h) + 60px) 64px 80px;
