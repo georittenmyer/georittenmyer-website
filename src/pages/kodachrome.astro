@@ -1,0 +1,297 @@
+---
+import Base from '../layouts/Base.astro';
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+
+const images = [
+  '1364089674924-M61JBJDMHVFQDNK7GUXN/Scan_20130315_00035.jpg',
+  '1364089692711-6FWQHRYS0P92HOYREK44/Scan_20130315_00036.jpg',
+  '1364089752454-LBKEK1KYJ31XZDTE059Q/Scan_20130321_00084.jpg',
+  '1364089759048-GHR33E7G8LULA903II2C/Scan_20130321_00096.jpg',
+  '1364089803122-K4PR5R60FV1UQ377THJH/Scan_20130321_00108.jpg',
+  '1364089832884-HWKC9FMDO8D1N7PYWPM6/Scan_20130322_00049.jpg',
+  '1364089860602-BTUGU2T29CQ7JJ35SWSS/Scan_20130322_00050.jpg',
+  '1364089898589-8IDED0ZTCMZUNBQS2HOW/Scan_20130322_00065.jpg',
+  '1364089920465-1Y3VUAJ8DK1BPZUUU7OP/Scan_20130322_00068.jpg',
+  '1364089980050-1EDTXY8MGKFNBZV6LRC1/Scan_20130322_00070.jpg',
+  '1364089974347-M4EE0W5B1SZNPNCVN2RY/Scan_20130322_00073.jpg',
+  '1364090050325-XSS4YEBA5CUL9MYE679W/Scan_20130322_00078.jpg',
+  '1364090059947-I7VDV2L3WIU32X2W6EEW/Scan_20130322_00081.jpg',
+  '1364090136339-FU8ZYB3ETWYRKVQHJSIX/Scan_20130322_00082.jpg',
+  '1364090128883-B4QT5CHYMPC28EUOWOU7/Scan_20130322_00088.jpg',
+  '1364090195546-8EXSAF4NU5WAZ95PK15R/Scan_20130322_00099.jpg',
+  '1364090190416-9ZP0J1ND3JFW0GWSQ8HH/Scan_20130322_00120.jpg',
+  '1448440284464-6OXWFO93VC1G6IZ5F5LB/20130327_0150.jpg',
+  '1448440284734-COXH3993OCJ0XVD9A2M7/20130327_0151.jpg',
+  '1448440290881-X1P9Q0UJCSZZGRGWENUT/20130327_0157.jpg',
+  '1448440291046-MPXZPFA1JV4EGRGFNBAN/20130328_0165.jpg',
+  '1448440299610-SOBTQQG3AQDTOKB0V4ND/20130328_0171.jpg',
+  '1448440297444-43DP28BHTK5UCG168SI6/20130328_0172.jpg',
+  '1448440304486-309IFRBTRELFNLEP0A9M/20130328_0179.jpg',
+  '1448440307421-J2ZUP937MKKEZUQALABK/20130328_0181.jpg',
+  '1448440312168-B3KVMA2XO31C54AQPB3L/20130328_0183.jpg',
+  '1448440314681-46FDTFJMRR6I2BZI5JNN/20130328_0193.jpg',
+  '1448440317690-V7CFPZ6C59YHLRYRBT6B/Scan_20151107_0029.jpg',
+  '1448440322601-7THPMCY1QJ8BNWKM7IJM/Scan_20151111_0061.jpg',
+  '1448440325456-CMS0B4J189MZNE4NKT0T/Scan_20151112_0063.jpg',
+  '1448440329977-OWM5IR8D22V6FICH0TTK/Scan_20151112_0064.jpg',
+  '1448440332351-8AYX0NKQ0DK45H4CTFEN/Scan_20151112_0066.jpg',
+  '1448440338171-HHKM36IDECM2SGD6I9AQ/Scan_20151114_0081.jpg',
+  '1448440340701-A0SPGBFSVJN0LHJE0PWQ/Scan_20151114_0084.jpg',
+  '1448440344743-3G2MPABSRY32IT5YAPGR/Scan_20151115_0106.jpg',
+  '1448440346460-ILG3FFS3592GIHTT8YZ9/Scan_20151115_0113.jpg',
+  '1448440350031-7MG8YI7OPNQSGAZESEYF/Scan_20151115_0114.jpg',
+  '1448440350512-85YHWNZ1DMIS9NNRKRFA/Scan_20151116_0122.jpg',
+  '1448440355140-EPX9BNLEK3BP9V97820Y/Scan_20151116_0127.jpg',
+  '1448440356416-1TRGQR4D1TF60U3V7QAB/Scan_20151117_0139.jpg',
+  '1448996443317-ZZG7TX443MEKK7TRZFI1/Scan_20151127_0225.jpg',
+  '1448996443266-U3N9RMJRL3EI0HW3ND03/Scan_20151127_0228.jpg',
+  '1448996451399-J1TYWRDMGIS55GXVD5E3/Scan_20151130_0236.jpg',
+  '1448996450266-QXOQ4VMAX6AZU224MB8B/Scan_20151130_0245.jpg',
+  '1448996454373-QFBG8WZHUIC968NLBISM/Scan_20151130_0260.jpg',
+].map(p => BASE + p);
+---
+
+<Base
+    title="Kodachrome — Geo Rittenmyer"
+    description="A film photography project shot on Kodachrome by Geo Rittenmyer."
+>
+    <div class="koda-page">
+
+        <div class="koda-header">
+            <h1>Kodachrome</h1>
+            <p class="koda-desc">Through the late 60s, 70s, and into the early 80s, my grandfather carried a few cameras with him, most often a Pentax SE, and photographed his travels for both work and family trips. When he returned home, he would assemble his favorites into Kodak slide trays and invite friends and family over for an evening slideshow to share the trip.</p>
+            <p class="koda-desc">I have preserved boxes of those slides, and whenever I find a little free time I pull some out and scan a few. Many of them remain small mysteries because I often have no idea where the photo was taken.</p>
+        </div>
+
+        <div class="koda-grid" id="kodaGrid">
+            {images.map((src, i) => (
+                <button class="koda-cell" data-index={i} aria-label={`Photo ${i + 1}`}>
+                    <img src={src} alt={`Kodachrome ${i + 1}`} loading={i < 9 ? 'eager' : 'lazy'} />
+                </button>
+            ))}
+        </div>
+
+    </div>
+
+    <!-- Zoom overlay -->
+    <div id="kodaZoom" class="koda-zoom" aria-hidden="true">
+        <button class="koda-zoom-close lb-key-btn" id="kodaZoomClose" aria-label="Close">ESC</button>
+        <button class="koda-zoom-prev lb-key-btn" id="kodaZoomPrev" aria-label="Previous">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 4 6 9 11 14"/></svg>
+        </button>
+        <button class="koda-zoom-next lb-key-btn" id="kodaZoomNext" aria-label="Next">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 4 12 9 7 14"/></svg>
+        </button>
+        <div class="koda-zoom-wrap" id="kodaZoomWrap">
+            <img id="kodaZoomImg" src="" alt="" />
+        </div>
+        <div class="koda-counter" id="kodaCounter"></div>
+    </div>
+</Base>
+
+<script is:inline>
+    var allImages = Array.from(document.querySelectorAll('#kodaGrid img')).map(function(img) {
+        return img.src;
+    });
+
+    var zoom      = document.getElementById('kodaZoom');
+    var zoomImg   = document.getElementById('kodaZoomImg');
+    var zoomWrap  = document.getElementById('kodaZoomWrap');
+    var counter   = document.getElementById('kodaCounter');
+    var btnClose  = document.getElementById('kodaZoomClose');
+    var btnPrev   = document.getElementById('kodaZoomPrev');
+    var btnNext   = document.getElementById('kodaZoomNext');
+    var current   = 0;
+
+    function openZoom(index) {
+        current = index;
+        showImage();
+        zoom.classList.add('open');
+        zoom.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeZoom() {
+        zoom.classList.remove('open');
+        zoom.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    function showImage() {
+        zoomImg.src = allImages[current];
+        counter.textContent = (current + 1) + ' / ' + allImages.length;
+    }
+
+    function prev() { current = (current - 1 + allImages.length) % allImages.length; showImage(); }
+    function next() { current = (current + 1) % allImages.length; showImage(); }
+
+    document.querySelectorAll('.koda-cell').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            openZoom(parseInt(btn.dataset.index));
+        });
+    });
+
+    btnClose.addEventListener('click', closeZoom);
+    btnPrev.addEventListener('click', prev);
+    btnNext.addEventListener('click', next);
+
+    zoom.addEventListener('click', function(e) {
+        if (e.target === zoom || e.target === zoomWrap) closeZoom();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!zoom.classList.contains('open')) return;
+        if (e.key === 'Escape')      closeZoom();
+        if (e.key === 'ArrowLeft')   prev();
+        if (e.key === 'ArrowRight')  next();
+    });
+</script>
+
+<style>
+    .koda-page {
+        padding: calc(var(--nav-h) + 48px) 6% 6%;
+    }
+
+    /* ── Header ── */
+    .koda-header {
+        margin-bottom: 48px;
+    }
+
+    .koda-header h1 {
+        font-family: sketchnote-square, sans-serif;
+        font-size: clamp(28px, 3vw, 48px);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 1.1;
+        margin-bottom: 16px;
+    }
+
+    .koda-desc {
+        font-size: 17px;
+        line-height: 1.8;
+        color: var(--ink-soft);
+        max-width: 960px;
+    }
+
+    /* ── Grid ── */
+    .koda-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .koda-cell {
+        display: block;
+        padding: 0;
+        border: none;
+        background: none;
+        cursor: zoom-in;
+        aspect-ratio: 3 / 2;
+        overflow: hidden;
+    }
+
+    .koda-cell img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: opacity 0.2s;
+    }
+
+    .koda-cell:hover img {
+        opacity: 0.85;
+    }
+
+    /* ── Zoom overlay ── */
+    .koda-zoom {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: var(--bg);
+        z-index: 500;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .koda-zoom.open {
+        display: flex;
+    }
+
+    .koda-zoom-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 120px;
+        box-sizing: border-box;
+    }
+
+    .koda-zoom-wrap img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+        user-select: none;
+    }
+
+    .koda-zoom-close {
+        position: absolute;
+        top: 24px;
+        left: 6%;
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        padding: 7px 12px;
+        z-index: 502;
+    }
+
+    .koda-zoom-prev,
+    .koda-zoom-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 12px;
+        z-index: 502;
+    }
+
+    .koda-zoom-prev:hover,
+    .koda-zoom-next:hover {
+        transform: translateY(calc(-50% + 0.3px));
+    }
+
+    .koda-zoom-prev { left: 32px; }
+    .koda-zoom-next { right: 32px; }
+
+    .koda-counter {
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        color: var(--ink-soft);
+        white-space: nowrap;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+        .koda-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .koda-zoom-wrap {
+            padding: 80px 24px;
+        }
+
+        .koda-zoom-prev { left: 12px; }
+        .koda-zoom-next { right: 12px; }
+    }
+
+    @media (max-width: 480px) {
+        .koda-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
