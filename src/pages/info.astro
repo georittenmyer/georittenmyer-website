@@ -1,67 +1,535 @@
 ---
-import Base from '../layouts/Base.astro';
+import Base from "../layouts/Base.astro";
 
 const clients = [
-  'Sesame Street Live','NBC Universal','Reader\'s Digest','Time Magazine','SeattleMet',
-  'Men\'s Journal','Sports Illustrated','ESPN Magazine','The Today Show','The Guardian',
-  'Lyft','Jurassic World','AMA Supercross','Jhane Barnes','Seven New York','Ralph Lauren',
-  'A&E','Voom-HD','Rainbow Media','New York Times Magazine','Cole & Weber United',
-  'Washington\'s Lottery','TBWA/Chiat/Day','AARP','Feld Entertainment','Ringling Bros',
-  'Disney','Marvel Universe Live','NYC Heart Gallery','Seattle Good Business Network',
+    "ESPN", "Sports Illustrated", "Ralph Lauren", "Disney",
+    "NBC Universal", "Time Magazine", "SeattleMet", "Men's Journal",
+    "The Guardian", "Lyft", "Jurassic World", "AMA Supercross",
+    "Sesame Street Live", "Ringling", "Marvel Universe Live", "AARP",
+    "Feld Entertainment", "Reader's Digest", "The Today Show", "TBWA/Chiat/Day",
+    "Washington's Lottery", "A&E", "New York Times Magazine", "Cole & Weber",
+    "Jhane Barnes", "Seven New York", "NYC Heart Gallery", "Amazon",
 ];
 ---
 
 <Base
-  title="Info — Geo Rittenmyer"
-  description="Seattle-based photographer Geo Rittenmyer — available for editorial, event, and brand work."
-  ogImage="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/0881d0f4-aa7c-40d0-b52f-6eb1364664da/20231110_0155.jpg"
+    title="Info — Geo Rittenmyer"
+    description="Seattle-based photographer Geo Rittenmyer — editorial, events, and brand work for ESPN, Sports Illustrated, Disney, and more."
 >
-  <div class="info-page">
+    <div class="info-page">
+        <div class="layout">
 
-    <div class="info-hero">
-      <img
-        class="info-portrait"
-        src="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/0881d0f4-aa7c-40d0-b52f-6eb1364664da/20231110_0155.jpg"
-        alt="Geo Rittenmyer"
-      />
-      <div class="info-bio">
-        <h2>Geo Rittenmyer</h2>
-        <p class="info-tagline">Seattle photographer — editorial, events, brand</p>
-        <p>I'm drawn to moments of light and narrative. Trained at Brooks Institute, I work on editorial, advertising, and live events — for clients like ESPN, Sports Illustrated, Ralph Lauren, Disney, NBC Universal, and major agencies.</p>
-        <p>Currently working on a personal landscape book with essays on global affairs. Based in Seattle with a fully equipped studio.</p>
-        <p>Stock imagery via <a href="https://www.gallerystock.com" target="_blank" rel="noopener">Gallery Stock</a>.</p>
+            <!-- ── PHOTO ── -->
+            <div class="photo-col">
+                <div class="photo-wrap">
+                    <img
+                        src="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/1713818461286-BET0O5N41IMSW1Y3DRI4/20170604_0553.jpg?format=1000w"
+                        alt="Geo Rittenmyer"
+                        loading="eager"
+                    />
+                </div>
+            </div>
 
-        <div class="info-tags">
-          <span>Editorial</span>
-          <span>Events</span>
-          <span>Brand</span>
-          <span>Portrait</span>
-          <span>Documentary</span>
+            <!-- ── TEXT ── -->
+            <div class="text-col">
+
+                <div class="name-block">
+                    <h1>Geo Rittenmyer</h1>
+                    <p class="tagline">Seattle • Worldwide</p>
+                </div>
+
+                <div class="bio">
+                    <p>
+                        Geo Rittenmyer is a Seattle-based photographer and visual storyteller known for cinematic lighting, bold color, and carefully crafted imagery. With experience across studio, commercial, and location work, he approaches each project with a clear creative vision and a collaborative mindset.
+                    </p>
+                    <p>
+                        Geo works closely with clients from the first conversation through final delivery, keeping the process straightforward, flexible, and enjoyable. While he operates out of a fully equipped studio in Seattle, he can also build a studio environment almost anywhere in the world to meet the needs of a project.
+                    </p>
+                    <p>
+                        He's always happy to connect, talk through ideas, and collaborate on new work.
+                    </p>
+                </div>
+
+                <div class="specialties">
+                    <span>Advertising</span>
+                    <span>Editorial</span>
+                    <span>Events</span>
+                    <span>Brand</span>
+                    <span>Portrait</span>
+                    <span>Corporate</span>
+                </div>
+
+                <div class="contact-partners-row">
+                    <div class="contact-block">
+                        <p class="section-label">Contact</p>
+                        <div class="available-tag">
+                            <span class="dot"></span>
+                            Available for new projects
+                        </div>
+                        <a href="mailto:geo@georittenmyer.com">geo@georittenmyer.com</a>
+                        <a href="tel:6465849860">(646) 584-9860</a>
+                        <a href="https://instagram.com/georittenmyer" target="_blank" rel="noopener">@georittenmyer</a>
+                        <button class="ask-btn" id="askBtn">Ask me a question</button>
+                    </div>
+
+                    <div class="partners-col">
+                        <div class="partner-item">
+                            <span class="partner-label">Supported by</span>
+                            <a href="https://wonderfulmachine.com" target="_blank" rel="noopener">
+                                <img src="/images/Supported By Horizontal-Gray Trans.png" alt="Wonderful Machine" />
+                            </a>
+                        </div>
+                        <div class="partner-item">
+                            <span class="partner-label">Stock available via</span>
+                            <a href="https://www.gallerystock.com" target="_blank" rel="noopener">
+                                <img src="/images/GS-logo.png" alt="Gallery Stock" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clients-block">
+                    <p class="section-label">Selected Clients</p>
+                    <p class="clients-list" id="clients-list" data-clients={JSON.stringify(clients)}></p>
+                </div>
+
+                <script>
+                    const el = document.getElementById("clients-list");
+                    const list: string[] = JSON.parse(el?.dataset.clients || "[]");
+                    for (let i = list.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [list[i], list[j]] = [list[j], list[i]];
+                    }
+                    if (el) el.textContent = list.join(" · ");
+                </script>
+
+                <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+                <script>
+                    // ── EmailJS config — fill these in ──
+                    const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";   // from emailjs.com → Account → Public Key
+                    const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";   // from emailjs.com → Email Services
+                    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";  // from emailjs.com → Email Templates
+
+                    (window as any).emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+                    const modal     = document.getElementById("askModal")!;
+                    const openBtn   = document.getElementById("askBtn")!;
+                    const closeBtn  = document.getElementById("askModalClose")!;
+                    const form      = document.getElementById("askForm") as HTMLFormElement;
+                    const submitBtn = document.getElementById("askSubmit") as HTMLButtonElement;
+                    const status    = document.getElementById("askStatus")!;
+
+                    function openModal() {
+                        modal.classList.add("open");
+                        modal.setAttribute("aria-hidden", "false");
+                        document.body.style.overflow = "hidden";
+                        (document.getElementById("askName") as HTMLInputElement).focus();
+                    }
+
+                    function closeModal() {
+                        modal.classList.remove("open");
+                        modal.setAttribute("aria-hidden", "true");
+                        document.body.style.overflow = "";
+                        form.reset();
+                        status.textContent = "";
+                        status.className = "ask-status";
+                    }
+
+                    openBtn.addEventListener("click", openModal);
+                    closeBtn.addEventListener("click", closeModal);
+                    modal.addEventListener("click", (e) => {
+                        if (e.target === modal) closeModal();
+                    });
+                    document.addEventListener("keydown", (e) => {
+                        if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+                    });
+
+                    form.addEventListener("submit", async (e) => {
+                        e.preventDefault();
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = "Sending…";
+                        status.textContent = "";
+
+                        try {
+                            await (window as any).emailjs.sendForm(
+                                EMAILJS_SERVICE_ID,
+                                EMAILJS_TEMPLATE_ID,
+                                form
+                            );
+                            status.textContent = "Sent! I'll get back to you soon.";
+                            status.className = "ask-status success";
+                            submitBtn.textContent = "Sent ✓";
+                            setTimeout(closeModal, 2000);
+                        } catch {
+                            status.textContent = "Something went wrong — try emailing directly.";
+                            status.className = "ask-status error";
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = "Send question";
+                        }
+                    });
+                </script>
+
+            </div>
         </div>
-
-        <div class="info-contact">
-          <div class="info-contact-primary">
-            <a href="mailto:geo@georittenmyer.com">geo@georittenmyer.com</a>
-          </div>
-          <div class="info-contact-secondary">
-            <a href="tel:+16465849860">(646) 584-9860</a>
-            <a href="https://www.instagram.com/georittenmyer/" target="_blank" rel="noopener">@georittenmyer</a>
-          </div>
-          <div class="info-available">
-            <span class="info-available-dot"></span>
-            <span>Available for new projects</span>
-          </div>
-        </div>
-      </div>
     </div>
-
-    <div class="info-clients">
-      <p class="info-clients-label">Selected Clients</p>
-      <div class="marquee-track">
-        {clients.map(c => <span>{c}</span>)}
-        {clients.map(c => <span aria-hidden="true">{c}</span>)}
-      </div>
-    </div>
-
-  </div>
 </Base>
+
+<!-- ── Ask a Question Modal ── -->
+<div id="askModal" class="ask-modal" aria-hidden="true">
+    <div class="ask-modal-box">
+        <button class="ask-modal-close" id="askModalClose" aria-label="Close">ESC</button>
+        <p class="ask-modal-title">Ask me anything</p>
+        <form id="askForm">
+            <input type="text" id="askName" name="from_name" placeholder="Your name" required />
+            <input type="email" id="askEmail" name="from_email" placeholder="Your email (optional)" />
+            <textarea id="askQuestion" name="question" placeholder="What's on your mind?" rows="5" required></textarea>
+            <button type="submit" id="askSubmit">Send question</button>
+            <p class="ask-status" id="askStatus"></p>
+        </form>
+    </div>
+</div>
+
+<style>
+    .info-page {
+        padding: calc(var(--nav-h) + 2%) 10% 6%;
+        max-width: none;
+        margin: 0;
+    }
+
+    /* ── Side-by-side layout ── */
+    .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 600px) 1fr;
+        gap: 6%;
+        align-items: start;
+    }
+
+    /* ── Photo ── */
+    .photo-wrap {
+        aspect-ratio: 3 / 4;
+        overflow: hidden;
+        position: sticky;
+        top: calc(var(--nav-h) + 24px);
+    }
+
+    .photo-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* ── Text column ── */
+    .text-col {
+        padding-top: 8px;
+    }
+
+    /* ── Name ── */
+    .name-block {
+        display: flex;
+        align-items: baseline;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+    }
+
+    h1 {
+        font-family: sketchnote-square, sans-serif;
+        font-size: clamp(28px, 3vw, 48px);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 1.1;
+    }
+
+    .tagline {
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        border-left: 2px solid var(--accent);
+        padding-left: 12px;
+        white-space: nowrap;
+    }
+
+    /* ── Bio ── */
+    .bio {
+        margin-bottom: 32px;
+    }
+
+    .bio p {
+        font-size: 17px;
+        line-height: 1.8;
+        color: var(--ink-soft);
+        margin-bottom: 1.2em;
+    }
+
+    .bio a {
+        color: var(--ink);
+        border-bottom: 1px solid var(--accent);
+        text-decoration: none;
+        transition: opacity 0.2s;
+    }
+    .bio a:hover { opacity: 0.65; }
+
+    /* ── Specialty tags ── */
+    .specialties {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 40px;
+    }
+
+    .specialties span {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        color: var(--ink-soft);
+    }
+
+    /* ── Section label ── */
+    .section-label {
+        font-family: sketchnote-square, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-bottom: 16px;
+    }
+
+    /* ── Contact + Partners row ── */
+    .contact-partners-row {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        padding-top: 32px;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: flex-start;
+        gap: 48px;
+        flex-wrap: wrap;
+    }
+
+    .contact-block {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .contact-block a {
+        font-size: 16px;
+        text-decoration: none;
+        color: var(--ink);
+        transition: color 0.2s;
+        width: fit-content;
+    }
+    .contact-block a:hover { color: var(--accent); }
+
+    .available-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+    }
+
+    .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4caf50;
+        flex-shrink: 0;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.35; }
+    }
+
+    /* ── Partners ── */
+    .partners-col {
+        display: flex;
+        flex-direction: row;
+        gap: 32px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        padding-top: 30px;
+    }
+
+    .partner-item {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .partner-label {
+        font-size: 10px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        opacity: 0.6;
+    }
+
+    .partners-col img {
+        height: 44px;
+        width: auto;
+        opacity: 0.65;
+        transition: opacity 0.2s;
+        display: block;
+    }
+
+    .partners-col a:hover img {
+        opacity: 1;
+    }
+
+    /* ── Clients ── */
+    .clients-block {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        padding-top: 32px;
+    }
+
+    .clients-list {
+        font-size: 14px;
+        line-height: 2;
+        color: var(--ink-soft);
+        letter-spacing: 0.04em;
+    }
+
+    /* ── Ask button ── */
+    .ask-btn {
+        margin-top: 12px;
+        padding: 9px 18px;
+        font-family: sketchnote-square, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: border-color 0.2s, color 0.2s;
+        width: fit-content;
+    }
+    .ask-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    /* ── Ask modal ── */
+    .ask-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 600;
+        background: rgba(240, 237, 229, 0.92);
+        backdrop-filter: blur(6px);
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+    }
+    .ask-modal.open {
+        display: flex;
+    }
+
+    .ask-modal-box {
+        background: var(--bg);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 480px;
+        position: relative;
+    }
+
+    .ask-modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-family: sketchnote-square, sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        color: var(--ink-soft);
+        background: none;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding: 4px 8px;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .ask-modal-close:hover { color: var(--ink); }
+
+    .ask-modal-title {
+        font-family: sketchnote-square, sans-serif;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        margin-bottom: 24px;
+        color: var(--ink);
+    }
+
+    #askForm {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    #askForm input,
+    #askForm textarea {
+        width: 100%;
+        padding: 10px 14px;
+        font-family: sarala, sans-serif;
+        font-size: 15px;
+        color: var(--ink);
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        outline: none;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+        resize: vertical;
+    }
+    #askForm input:focus,
+    #askForm textarea:focus {
+        border-color: var(--accent);
+    }
+    #askForm input::placeholder,
+    #askForm textarea::placeholder {
+        color: var(--ink-soft);
+        opacity: 0.6;
+    }
+
+    #askSubmit {
+        font-family: sketchnote-square, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        padding: 12px 24px;
+        background: var(--ink);
+        color: var(--bg);
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        align-self: flex-start;
+    }
+    #askSubmit:hover { opacity: 0.75; }
+    #askSubmit:disabled { opacity: 0.4; cursor: default; }
+
+    .ask-status {
+        font-size: 13px;
+        color: var(--ink-soft);
+        min-height: 18px;
+    }
+    .ask-status.success { color: #4caf50; }
+    .ask-status.error   { color: #c0392b; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+        .layout {
+            grid-template-columns: 1fr;
+        }
+
+        .photo-wrap {
+            position: static;
+        }
+    }
+</style>
