@@ -23,10 +23,27 @@ const clients = [
             <div class="photo-col">
                 <div class="photo-wrap">
                     <img
-                        src="https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/1713818461286-BET0O5N41IMSW1Y3DRI4/20170604_0553.jpg?format=1000w"
+                        src="/images/portrait.jpg"
                         alt="Geo Rittenmyer"
                         loading="eager"
                     />
+                    <p class="photo-caption">when ai finds me at Legoland</p>
+                </div>
+
+                <div class="contact-row">
+                    <div class="contact-block">
+                        <p class="section-label">Contact</p>
+                        <div class="available-tag">
+                            <span class="dot"></span>
+                            Available for new projects
+                        </div>
+                        <a href="mailto:geo@georittenmyer.com">geo@georittenmyer.com</a>
+                        <a href="tel:6465849860">(646) 584-9860</a>
+                        <a href="https://instagram.com/georittenmyer" target="_blank" rel="noopener">@georittenmyer</a>
+                    </div>
+                    <div class="ask-col">
+                        <button class="ask-btn" id="askBtn">Ask me a question</button>
+                    </div>
                 </div>
             </div>
 
@@ -53,25 +70,13 @@ const clients = [
                 <div class="specialties">
                     <span>Advertising</span>
                     <span>Editorial</span>
-                    <span>Events</span>
+                    <span>Sports</span>
                     <span>Brand</span>
                     <span>Portrait</span>
                     <span>Corporate</span>
                 </div>
 
                 <div class="contact-partners-row">
-                    <div class="contact-block">
-                        <p class="section-label">Contact</p>
-                        <div class="available-tag">
-                            <span class="dot"></span>
-                            Available for new projects
-                        </div>
-                        <a href="mailto:geo@georittenmyer.com">geo@georittenmyer.com</a>
-                        <a href="tel:6465849860">(646) 584-9860</a>
-                        <a href="https://instagram.com/georittenmyer" target="_blank" rel="noopener">@georittenmyer</a>
-                        <button class="ask-btn" id="askBtn">Ask me a question</button>
-                    </div>
-
                     <div class="partners-col">
                         <div class="partner-item">
                             <span class="partner-label">Supported by</span>
@@ -192,24 +197,53 @@ const clients = [
     /* ── Side-by-side layout ── */
     .layout {
         display: grid;
-        grid-template-columns: clamp(450px, 50vw, 800px) 1fr;
+        grid-template-columns: minmax(0, 550px) 1fr;
         gap: 6%;
         align-items: start;
     }
 
     /* ── Photo ── */
-    .photo-wrap {
-        aspect-ratio: 3 / 4;
-        overflow: hidden;
+    .photo-col {
         position: sticky;
         top: calc(var(--nav-h) + 24px);
+        align-self: start;
+    }
+
+    .photo-wrap {
+        position: relative;
+        overflow: hidden;
+        max-width: 550px;
     }
 
     .photo-wrap img {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: auto;
         display: block;
+    }
+
+    .photo-caption {
+        position: absolute;
+        bottom: 10px;
+        right: 12px;
+        font-size: 11px;
+        color: rgba(255,255,255,0.75);
+        letter-spacing: 0.05em;
+        font-style: italic;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        margin: 0;
+    }
+
+    .contact-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-top: 32px;
+        max-width: 550px;
+    }
+
+    .ask-col {
+        display: flex;
+        align-items: flex-end;
     }
 
     /* ── Text column ── */
@@ -368,13 +402,13 @@ const clients = [
     .partners-col img {
         height: 56px;
         width: auto;
-        opacity: 0.65;
+        opacity: 1;
         transition: opacity 0.2s;
         display: block;
     }
 
     .partners-col a:hover img {
-        opacity: 1;
+        opacity: 0.45;
     }
 
     /* ── Clients ── */
@@ -392,10 +426,10 @@ const clients = [
 
     /* ── Ask button ── */
     .ask-btn {
-        margin-top: 12px;
-        padding: 9px 18px;
+        margin-top: 0;
+        padding: 12px 22px;
         font-family: sketchnote-square, sans-serif;
-        font-size: 11px;
+        font-size: 13px;
         letter-spacing: 0.13em;
         text-transform: uppercase;
         color: var(--ink);
@@ -510,8 +544,12 @@ const clients = [
             grid-template-columns: 1fr;
         }
 
-        .photo-wrap {
+        .photo-col {
             position: static;
+        }
+
+        .photo-wrap {
+            max-width: 100%;
         }
     }
 </style>
