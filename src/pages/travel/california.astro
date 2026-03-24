@@ -1,0 +1,257 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+
+const images = [
+  '1355269761904-7RKJHNHBDYZV0GUUPYLW/20111201_055.jpg',
+  '1368488248304-EL4W2PTSOUQVHYV2W9HV/20091105_0158.jpg',
+  '1355269750670-1RRX2FFBAXSRBTZMYWMJ/20091106_0284.jpg',
+  '1355269759636-NTK6Q9FYH6D08OTVY7WC/20110401_0234.jpg',
+  '1368648208037-BKTZ395TWJ9Z22292JIU/20091104_0053.jpg',
+  '1368488236655-7HL2P9AISS9O1NVS09QT/20091101_0169.jpg',
+  '1355269748712-NAUV3QG8EZYZPYRW2CRL/20091105_0836.jpg',
+  '1368649730835-82AYE4FTWQNDUVQFIP36/20091105_0547.jpg',
+  '1368488267564-S8N2K0W9WXWZ7QYYP353/20091105_0521.jpg',
+  '1368488269209-FGZIHQW0LUAL3N6WTJX0/20091106_0039.jpg',
+  '1368650481727-2XCG44P1ME7H65K8IK00/DVPano_1.jpg',
+  '1368649723822-T6ZBLS7QWVUHZAMD4WWW/20091106_0152.jpg',
+  '1368650632066-BTLLFP2F8VLQMRCF7QBT/YNightPano2.jpg',
+  '1368488254830-QALLUR48910N7JAV95BW/20091105_0335.jpg',
+  '1368650808829-QS11Z4MB3BW2M5L7URCL/20091105_0829.jpg',
+  '1368650309102-VOK0R15QRYOLBUR0BJ27/20091105_0287.jpg',
+  '1355269746092-N427GEMRGFNA2Q4IA6LB/20091105_0765.jpg',
+  '1368650738701-QWC06FJGPAWPBE88IP3Z/20091106_0385.jpg',
+].map(p => BASE + p);
+---
+
+<Base
+    title="California — Geo Rittenmyer"
+    description="Photographs from California by Geo Rittenmyer."
+>
+    <div class="cal-page">
+
+        <div class="cal-header">
+            <h1>California</h1>
+            <p class="cal-desc">Title and description coming soon.</p>
+        </div>
+
+        <div class="cal-grid" id="calGrid">
+            {images.map((src, i) => (
+                <button class="cal-cell" data-index={i} aria-label={`Photo ${i + 1}`}>
+                    <img src={src} alt={`California ${i + 1}`} loading={i < 9 ? 'eager' : 'lazy'} />
+                </button>
+            ))}
+        </div>
+
+    </div>
+
+    <!-- Zoom overlay -->
+    <div id="calZoom" class="cal-zoom" aria-hidden="true">
+        <button class="cal-zoom-close lb-key-btn" id="calZoomClose" aria-label="Close">ESC</button>
+        <button class="cal-zoom-prev lb-key-btn" id="calZoomPrev" aria-label="Previous">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 4 6 9 11 14"/></svg>
+        </button>
+        <button class="cal-zoom-next lb-key-btn" id="calZoomNext" aria-label="Next">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 4 12 9 7 14"/></svg>
+        </button>
+        <div class="cal-zoom-wrap" id="calZoomWrap">
+            <img id="calZoomImg" src="" alt="" />
+        </div>
+        <div class="cal-counter" id="calCounter"></div>
+    </div>
+</Base>
+
+<script is:inline>
+    var allImages = Array.from(document.querySelectorAll('#calGrid img')).map(function(img) {
+        return img.src;
+    });
+
+    var zoom     = document.getElementById('calZoom');
+    var zoomImg  = document.getElementById('calZoomImg');
+    var zoomWrap = document.getElementById('calZoomWrap');
+    var counter  = document.getElementById('calCounter');
+    var btnClose = document.getElementById('calZoomClose');
+    var btnPrev  = document.getElementById('calZoomPrev');
+    var btnNext  = document.getElementById('calZoomNext');
+    var current  = 0;
+
+    function openZoom(index) {
+        current = index;
+        showImage();
+        zoom.classList.add('open');
+        zoom.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeZoom() {
+        zoom.classList.remove('open');
+        zoom.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    function showImage() {
+        zoomImg.src = allImages[current];
+        counter.textContent = (current + 1) + ' / ' + allImages.length;
+    }
+
+    function prev() { current = (current - 1 + allImages.length) % allImages.length; showImage(); }
+    function next() { current = (current + 1) % allImages.length; showImage(); }
+
+    document.querySelectorAll('.cal-cell').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            openZoom(parseInt(btn.dataset.index));
+        });
+    });
+
+    btnClose.addEventListener('click', closeZoom);
+    btnPrev.addEventListener('click', prev);
+    btnNext.addEventListener('click', next);
+
+    zoom.addEventListener('click', function(e) {
+        if (e.target === zoom || e.target === zoomWrap) closeZoom();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!zoom.classList.contains('open')) return;
+        if (e.key === 'Escape')      closeZoom();
+        if (e.key === 'ArrowLeft')   prev();
+        if (e.key === 'ArrowRight')  next();
+    });
+</script>
+
+<style>
+    .cal-page {
+        padding: calc(var(--nav-h) + 48px) 6% 6%;
+    }
+
+    .cal-header {
+        margin-bottom: 48px;
+    }
+
+    .cal-header h1 {
+        font-family: sketchnote-square, sans-serif;
+        font-size: clamp(28px, 3vw, 48px);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 1.1;
+        margin-bottom: 16px;
+    }
+
+    .cal-desc {
+        font-size: 17px;
+        line-height: 1.8;
+        color: var(--ink-soft);
+        max-width: 960px;
+    }
+
+    .cal-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .cal-cell {
+        display: block;
+        padding: 0;
+        border: none;
+        background: none;
+        cursor: zoom-in;
+        aspect-ratio: 3 / 2;
+        overflow: hidden;
+    }
+
+    .cal-cell img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: opacity 0.2s;
+    }
+
+    .cal-cell:hover img {
+        opacity: 0.85;
+    }
+
+    .cal-zoom {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: var(--bg);
+        z-index: 500;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cal-zoom.open {
+        display: flex;
+    }
+
+    .cal-zoom-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 120px;
+        box-sizing: border-box;
+    }
+
+    .cal-zoom-wrap img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+        user-select: none;
+    }
+
+    .cal-zoom-close {
+        position: absolute;
+        top: 24px;
+        left: 6%;
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        padding: 7px 12px;
+        z-index: 502;
+    }
+
+    .cal-zoom-prev,
+    .cal-zoom-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 12px;
+        z-index: 502;
+    }
+
+    .cal-zoom-prev:hover,
+    .cal-zoom-next:hover {
+        transform: translateY(calc(-50% + 0.3px));
+    }
+
+    .cal-zoom-prev { left: 32px; }
+    .cal-zoom-next { right: 32px; }
+
+    .cal-counter {
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        color: var(--ink-soft);
+        white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+        .cal-grid { grid-template-columns: repeat(2, 1fr); }
+        .cal-zoom-wrap { padding: 80px 24px; }
+        .cal-zoom-prev { left: 12px; }
+        .cal-zoom-next { right: 12px; }
+    }
+
+    @media (max-width: 480px) {
+        .cal-grid { grid-template-columns: 1fr; }
+    }
+</style>

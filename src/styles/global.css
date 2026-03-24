@@ -92,11 +92,26 @@ nav {
     }
 }
 
+@keyframes logoFocus {
+    0% {
+        filter: blur(0px);
+    }
+    60% {
+        filter: blur(0px);
+    }
+    85% {
+        filter: blur(2.5px);
+    }
+    100% {
+        filter: blur(0px);
+    }
+}
+
 .nav-logo img {
     height: 48px;
     width: auto;
     display: block;
-    animation: logoPulse 4s ease-in-out infinite;
+    animation: logoFocus 3.3s ease-in-out infinite;
     cursor: pointer;
 }
 
