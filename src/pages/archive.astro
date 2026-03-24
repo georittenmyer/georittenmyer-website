@@ -29,9 +29,9 @@ const projects = [
 
 const projectData = projects.map(p => ({
   ...p,
-  images: p.images.map(img => BASE + img),
-  coverImages: p.images.slice(0, 3).map(img => BASE + img),
-  cover: BASE + p.images[0],
+  images: p.images.map(img => BASE + p.id + '/' + img),
+  coverImages: p.images.slice(0, 3).map(img => BASE + p.id + '/' + img),
+  cover: BASE + p.id + '/' + p.images[0],
 }));
 ---
 
