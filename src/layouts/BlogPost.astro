@@ -18,6 +18,14 @@ const formatted = new Date(String(date).replace(/-/g, '/')).toLocaleDateString("
     day: "numeric",
 });
 
+// Next post (chronologically newer)
+const allPosts = await Astro.glob('../pages/blog/*.md');
+const sorted = allPosts.sort((a, b) =>
+    new Date(a.frontmatter.date).getTime() - new Date(b.frontmatter.date).getTime()
+);
+const currentIndex = sorted.findIndex(p => p.frontmatter.date === date && p.frontmatter.title === title);
+const nextPost = currentIndex > 0 ? sorted[currentIndex - 1] : null;
+
 const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -46,7 +54,12 @@ const jsonLd = JSON.stringify({
 
     <article class="post">
         <header class="post-header">
-            <a href="/blog" class="back-link">← All Posts</a>
+            <div class="post-nav">
+                <a href="/blog" class="back-link">← All Posts</a>
+                {nextPost && (
+                    <a href={nextPost.url} class="next-link">{nextPost.frontmatter.title} →</a>
+                )}
+            </div>
             <h1>{title}</h1>
             <time datetime={date}>{formatted}</time>
             {description && <p class="post-desc">{description}</p>}
@@ -143,17 +156,23 @@ const jsonLd = JSON.stringify({
 
     .post-header { margin-bottom: 40px; }
 
-    .back-link {
+    .post-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .back-link, .next-link {
         display: inline-block;
         font-size: 12px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--ink-soft);
         text-decoration: none;
-        margin-bottom: 24px;
         transition: color 0.2s;
     }
-    .back-link:hover { color: var(--ink); }
+    .back-link:hover, .next-link:hover { color: var(--ink); }
 
     h1 {
         font-size: clamp(32px, 6vw, 64px);
