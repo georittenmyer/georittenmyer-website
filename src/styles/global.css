@@ -111,8 +111,19 @@ nav {
     height: 48px;
     width: auto;
     display: block;
-    animation: logoFocus 3.3s ease-in-out infinite;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nav-logo img {
+        height: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-logo img {
+        height: 28px;
+    }
 }
 
 .nav-logo img:hover {
@@ -250,6 +261,8 @@ footer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .footer-label {
@@ -258,7 +271,7 @@ footer {
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink);
-    margin-bottom: 14px;
+    margin-bottom: 6px;
 }
 
 .footer-col {

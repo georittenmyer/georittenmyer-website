@@ -2,7 +2,8 @@
 import Base from '../../layouts/Base.astro';
 
 // Fetch all .md files from the blog folder
-const posts = await Astro.glob('./*.md');
+const modules = import.meta.glob('./*.md', { eager: true });
+const posts = Object.values(modules);
 
 // Sort newest first
 const sorted = posts.sort((a, b) =>
@@ -83,7 +84,7 @@ const sorted = posts.sort((a, b) =>
     text-decoration: none;
     color: var(--ink);
     display: block;
-    background: #fff;
+    background: #f7f6f2;
     box-shadow: 0 4px 18px rgba(0,0,0,0.28);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
