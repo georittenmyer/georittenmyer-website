@@ -11,7 +11,7 @@
     --ink: #000000; /* black */
     --ink-soft: #707070; /* grey */
     --darkgrey: #303030; /* darkgrey */
-    --accent: #026d74; /* teal */
+    --accent: #336666;
     --nav-h: 96px;
 }
 
@@ -259,10 +259,24 @@ footer {
 
 .footer-inner {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: auto repeat(3, 1fr);
     gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
+    align-items: stretch;
+}
+
+.footer-logo-col {
+    display: flex;
+    align-items: center;
+    padding-right: 40px;
+}
+
+.footer-logo-col img {
+    height: 100px;
+    width: auto;
+    opacity: 0.25;
+    display: block;
 }
 
 .footer-label {
