@@ -19,11 +19,12 @@ const formatted = new Date(String(date).replace(/-/g, '/')).toLocaleDateString("
 });
 
 // Next post (chronologically newer)
-const allPosts = await Astro.glob('../pages/blog/*.md');
+const modules = import.meta.glob('../pages/blog/*.md', { eager: true });
+const allPosts = Object.values(modules);
 const sorted = allPosts.sort((a, b) =>
-    new Date(a.frontmatter.date).getTime() - new Date(b.frontmatter.date).getTime()
+    new Date((a as any).frontmatter.date).getTime() - new Date((b as any).frontmatter.date).getTime()
 );
-const currentIndex = sorted.findIndex(p => p.frontmatter.date === date && p.frontmatter.title === title);
+const currentIndex = sorted.findIndex(p => (p as any).frontmatter.date === date && (p as any).frontmatter.title === title);
 const nextPost = currentIndex > 0 ? sorted[currentIndex - 1] : null;
 
 const jsonLd = JSON.stringify({
