@@ -924,6 +924,7 @@ footer {
 }
 .lb-zoom.open {
     display: flex;
+    z-index: 502;
 }
 .lb-zoom-wrap {
     display: flex;
@@ -969,7 +970,11 @@ footer {
     right: 32px;
 }
 
+.lb-zoom-close-mobile { display: none; }
+
 @media (max-width: 640px) {
+    .lb-zoom-close-desktop { display: none; }
+    .lb-zoom-close-mobile { display: inline; }
     .lb-prev, .lb-next { display: none; }
     .lb-zoom-wrap { padding: 80px 16px 60px; }
     .lb-zoom-close {
