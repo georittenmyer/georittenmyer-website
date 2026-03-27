@@ -85,13 +85,11 @@ const sorted = posts.sort((a, b) =>
     color: var(--ink);
     display: block;
     background: #f7f6f2;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.28);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.25s ease;
   }
 
   .post-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 36px rgba(0,0,0,0.38);
   }
 
   .post-mat {
@@ -140,8 +138,11 @@ const sorted = posts.sort((a, b) =>
     white-space: nowrap;
   }
 
+  @media (max-width: 1024px) {
+    .post-grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+
   @media (max-width: 768px) {
     .blog-page { padding: calc(var(--nav-h) + 32px) 20px 60px; }
-    .post-grid { grid-template-columns: 1fr; gap: 24px; }
   }
 </style>
