@@ -57,4 +57,19 @@ const projectData = projects.map(p => ({
       img.src = coverImages[Math.floor(Math.random() * coverImages.length)];
     }
   });
+
+  // Show title label on mobile: visible when card center is below viewport center
+  function updateCardLabels() {
+    const vh = window.innerHeight;
+    const viewportCenter = vh / 2;
+    document.querySelectorAll<HTMLElement>('.card').forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.top + rect.height / 2;
+      const inView = rect.top < vh && cardCenter > viewportCenter - 20;
+      card.classList.toggle('in-view', inView);
+    });
+  }
+
+  window.addEventListener('scroll', updateCardLabels, { passive: true });
+  updateCardLabels();
 </script>
