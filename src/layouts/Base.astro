@@ -167,7 +167,7 @@ import "../styles/global.css";
             <div class="lb-zoom" id="lb-zoom">
                 <button
                     class="lb-zoom-close lb-key-btn"
-                    aria-label="Back to grid">ESC</button
+                    aria-label="Close">✕</button
                 >
                 <button class="lb-prev lb-key-btn" aria-label="Previous">
                     <svg
@@ -235,6 +235,7 @@ import "../styles/global.css";
 
             let images: string[] = [];
             let current = 0;
+            let directZoom = false; // true when zoom opened directly (mobile, no grid)
 
             function openLightbox(imgs: string[], title: string) {
                 images = imgs;
@@ -260,6 +261,7 @@ import "../styles/global.css";
                 lightbox.setAttribute("aria-hidden", "true");
                 document.body.style.overflow = "";
                 lbZoom.classList.remove("open");
+                directZoom = false;
             }
 
             function openZoom(index: number) {
@@ -284,13 +286,10 @@ import "../styles/global.css";
             lbClose.addEventListener("click", closeLightbox);
             const isMobile = () => window.matchMedia("(max-width: 640px)").matches;
 
-            // On mobile: change ESC to × and add swipe navigation
-            if (isMobile()) {
-                lbZoomClose.textContent = "×";
-            }
 
-            lbZoomClose.addEventListener("click", () => {
-                if (isMobile()) {
+            lbZoomClose.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (directZoom) {
                     closeLightbox();
                 } else {
                     lbZoom.classList.remove("open");
@@ -365,8 +364,18 @@ import "../styles/global.css";
                 );
                 const title = card.getAttribute("data-title") || "";
                 if (imgs.length === 0) return;
-                openLightbox(imgs, title);
-                if (isMobile()) openZoom(0);
+                if (isMobile()) {
+                    // Mobile: skip grid, go straight to zoom
+                    directZoom = true;
+                    images = imgs;
+                    lbGrid.innerHTML = "";
+                    lightbox.classList.add("open");
+                    lightbox.setAttribute("aria-hidden", "false");
+                    document.body.style.overflow = "hidden";
+                    openZoom(0);
+                } else {
+                    openLightbox(imgs, title);
+                }
             });
         </script>
     </body>
