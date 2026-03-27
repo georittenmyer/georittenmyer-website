@@ -282,9 +282,20 @@ import "../styles/global.css";
                 showZoom();
             });
             lbClose.addEventListener("click", closeLightbox);
-            lbZoomClose.addEventListener("click", () =>
-                lbZoom.classList.remove("open"),
-            );
+            const isMobile = () => window.matchMedia("(max-width: 640px)").matches;
+
+            // On mobile: change ESC to × and add swipe navigation
+            if (isMobile()) {
+                lbZoomClose.textContent = "×";
+            }
+
+            lbZoomClose.addEventListener("click", () => {
+                if (isMobile()) {
+                    closeLightbox();
+                } else {
+                    lbZoom.classList.remove("open");
+                }
+            });
 
             // Click backdrop to close (except on images or buttons)
             lightbox.addEventListener("click", (e) => {
@@ -323,6 +334,22 @@ import "../styles/global.css";
                 }
             });
 
+            // Swipe navigation on mobile
+            let touchStartX = 0;
+            lbZoom.addEventListener("touchstart", (e) => {
+                touchStartX = e.changedTouches[0].clientX;
+            }, { passive: true });
+            lbZoom.addEventListener("touchend", (e) => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) < 50) return;
+                if (diff > 0) {
+                    current = (current + 1) % images.length;
+                } else {
+                    current = (current - 1 + images.length) % images.length;
+                }
+                showZoom();
+            }, { passive: true });
+
             // Open lightbox on card click (only div cards with data-images, not <a> link cards)
             document.addEventListener("click", (e) => {
                 const card = (e.target as HTMLElement).closest(".card");
@@ -339,6 +366,7 @@ import "../styles/global.css";
                 const title = card.getAttribute("data-title") || "";
                 if (imgs.length === 0) return;
                 openLightbox(imgs, title);
+                if (isMobile()) openZoom(0);
             });
         </script>
     </body>
