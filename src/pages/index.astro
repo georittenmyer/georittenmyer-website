@@ -37,11 +37,14 @@ const projectData = projects.map(p => ({
 }));
 ---
 
-<Base title="Geo Rittenmyer — The Work">
+<Base
+  title="Geo Rittenmyer — Seattle Commercial Photographer"
+  description="Seattle-based commercial photographer specializing in editorial, brand, events, and portrait work. Clients include Disney, ESPN, NBC Universal, Amazon, and Lyft."
+>
   <div class="masonry" id="mainGrid">
     {projectData.map((p, i) => (
       <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-cover-images={JSON.stringify(p.coverImages)} data-title={p.title}>
-        <img src={p.cover} alt={p.title} loading={i < 4 ? 'eager' : 'lazy'} />
+        <img src={p.cover} alt={`${p.title} — commercial photography by Geo Rittenmyer`} loading={i < 4 ? 'eager' : 'lazy'} />
         <div class="card-label"><span>{p.title}</span></div>
       </div>
     ))}

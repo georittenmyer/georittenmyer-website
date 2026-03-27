@@ -29,9 +29,59 @@ import "../styles/global.css";
         <meta property="og:url" content={canonicalURL} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
+        <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+        <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+        <link rel="preconnect" href="https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev" crossorigin />
         <link rel="stylesheet" href="https://use.typekit.net/kgj2dsh.css" />
-        <link rel="stylesheet" href="/src/styles/global.css" />
         <slot name="head" />
+        <script type="application/ld+json" set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "Person",
+                    "@id": "https://georittenmyer.com/#person",
+                    "name": "Geo Rittenmyer",
+                    "url": "https://georittenmyer.com",
+                    "image": "https://georittenmyer.com/images/portrait.jpg",
+                    "jobTitle": "Photographer",
+                    "description": "Seattle-based commercial photographer and visual storyteller specializing in editorial, brand, events, and portrait work.",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Seattle",
+                        "addressRegion": "WA",
+                        "addressCountry": "US"
+                    },
+                    "email": "geo@georittenmyer.com",
+                    "telephone": "+16465849860",
+                    "sameAs": [
+                        "https://www.instagram.com/georittenmyer/",
+                        "https://www.linkedin.com/in/georittenmyer/"
+                    ],
+                    "knowsAbout": [
+                        "Commercial Photography",
+                        "Editorial Photography",
+                        "Brand Photography",
+                        "Portrait Photography",
+                        "Event Photography",
+                        "Studio Photography",
+                        "Location Photography"
+                    ],
+                    "worksFor": {
+                        "@type": "Organization",
+                        "name": "Geo Rittenmyer Photography",
+                        "url": "https://georittenmyer.com"
+                    }
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://georittenmyer.com/#website",
+                    "url": "https://georittenmyer.com",
+                    "name": "Geo Rittenmyer",
+                    "description": "Seattle commercial photographer — editorial, brand, events, and portrait work for Disney, ESPN, NBC Universal, Amazon, Lyft, and more.",
+                    "author": { "@id": "https://georittenmyer.com/#person" }
+                }
+            ]
+        })} />
     </head>
     <body>
         <nav>
