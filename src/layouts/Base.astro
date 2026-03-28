@@ -374,12 +374,12 @@ import "../styles/global.css";
                 }
             });
 
-            // Click backdrop to close (except on images or buttons)
+            // Click backdrop to close (except on images, videos or buttons)
             lightbox.addEventListener("click", (e) => {
                 const target = e.target as HTMLElement;
                 if (
                     target === lightbox ||
-                    (!target.closest("img") && !target.closest("button"))
+                    (!target.closest("img") && !target.closest("video") && !target.closest("button"))
                 ) {
                     closeLightbox();
                 }

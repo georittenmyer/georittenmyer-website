@@ -1,0 +1,15 @@
+USEFULL SCRIPTS
+
+*Gif-MP4/WEBM
+
+//Install via homebrew
+brew install ffmpeg
+
+//Run at folder level
+for f in *.gif; do
+  ffmpeg -i "$f" \
+    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+    -c:v libx264 -pix_fmt yuv420p -movflags +faststart -crf 28 "${f%.gif}.mp4" \
+    -c:v libvpx-vp9 -b:v 0 -crf 35 -pix_fmt yuva420p "${f%.gif}.webm"
+done
+_________________
