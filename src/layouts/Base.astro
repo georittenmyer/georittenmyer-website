@@ -248,6 +248,7 @@ import "../styles/global.css";
                 </button>
                 <div class="lb-zoom-wrap">
                     <img id="lb-zoom-img" src="" alt="" />
+                    <video id="lb-zoom-video" autoplay loop muted playsinline style="display:none"></video>
                 </div>
                 <div class="lb-counter" id="lb-counter"></div>
             </div>
@@ -270,6 +271,9 @@ import "../styles/global.css";
             const lbZoomImg = document.getElementById(
                 "lb-zoom-img",
             ) as HTMLImageElement;
+            const lbZoomVideo = document.getElementById(
+                "lb-zoom-video",
+            ) as HTMLVideoElement;
             const lbCounter = document.getElementById("lb-counter")!;
             const lbClose = lightbox.querySelector(
                 ".lb-close",
@@ -287,6 +291,7 @@ import "../styles/global.css";
             let images: string[] = [];
             let current = 0;
             let directZoom = false; // true when zoom opened directly (mobile, no grid)
+            const isVideo = (src: string) => src.endsWith('.mp4') || src.endsWith('.webm');
 
             function openLightbox(imgs: string[], title: string) {
                 images = imgs;
@@ -294,12 +299,23 @@ import "../styles/global.css";
                 // Build grid
                 lbGrid.innerHTML = "";
                 imgs.forEach((src, i) => {
-                    const img = document.createElement("img");
-                    img.src = src;
-                    img.alt = title;
-                    img.loading = "lazy";
-                    img.addEventListener("click", () => openZoom(i));
-                    lbGrid.appendChild(img);
+                    if (isVideo(src)) {
+                        const vid = document.createElement("video");
+                        vid.autoplay = true;
+                        vid.loop = true;
+                        vid.muted = true;
+                        vid.playsInline = true;
+                        vid.innerHTML = `<source src="${src.replace('.mp4', '.webm')}" type="video/webm"><source src="${src}" type="video/mp4">`;
+                        vid.addEventListener("click", () => openZoom(i));
+                        lbGrid.appendChild(vid);
+                    } else {
+                        const img = document.createElement("img");
+                        img.src = src;
+                        img.alt = title;
+                        img.loading = "lazy";
+                        img.addEventListener("click", () => openZoom(i));
+                        lbGrid.appendChild(img);
+                    }
                 });
                 lbZoom.classList.remove("open");
                 lightbox.classList.add("open");
@@ -322,7 +338,18 @@ import "../styles/global.css";
             }
 
             function showZoom() {
-                lbZoomImg.src = images[current];
+                const src = images[current];
+                if (isVideo(src)) {
+                    lbZoomImg.style.display = "none";
+                    lbZoomVideo.style.display = "block";
+                    lbZoomVideo.innerHTML = `<source src="${src.replace('.mp4', '.webm')}" type="video/webm"><source src="${src}" type="video/mp4">`;
+                    lbZoomVideo.load();
+                    lbZoomVideo.play();
+                } else {
+                    lbZoomVideo.style.display = "none";
+                    lbZoomImg.style.display = "";
+                    lbZoomImg.src = src;
+                }
                 lbCounter.textContent = `${current + 1} / ${images.length}`;
             }
 
