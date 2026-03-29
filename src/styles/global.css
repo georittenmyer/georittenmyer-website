@@ -230,11 +230,7 @@ nav {
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-@media (max-width: 640px) {
-    body {
-        background-attachment: scroll;
-    }
-
+@media (max-width: 900px) {
     nav {
         display: flex;
         justify-content: space-between;
@@ -259,6 +255,12 @@ nav {
         position: relative;
         z-index: 2;
         margin-left: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        background-attachment: scroll;
     }
 }
 
