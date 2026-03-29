@@ -251,6 +251,11 @@ import "../styles/global.css";
                     <video id="lb-zoom-video" autoplay loop muted playsinline style="display:none"></video>
                 </div>
                 <div class="lb-counter" id="lb-counter"></div>
+                <div class="lb-swipe-hint" id="lb-swipe-hint" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 4 6 9 11 14"/></svg>
+                    <span>swipe</span>
+                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 4 12 9 7 14"/></svg>
+                </div>
             </div>
         </div>
 
@@ -331,10 +336,25 @@ import "../styles/global.css";
                 directZoom = false;
             }
 
+            const lbSwipeHint = document.getElementById("lb-swipe-hint")!;
+
+            // Hide prev/next arrows on touch devices — they use swipe instead
+            if (window.matchMedia("(pointer: coarse)").matches) {
+                lbPrev.style.display = "none";
+                lbNext.style.display = "none";
+            }
+
             function openZoom(index: number) {
                 current = index;
                 showZoom();
                 lbZoom.classList.add("open");
+                if (isMobile() && !sessionStorage.getItem("swipeHintSeen")) {
+                    lbSwipeHint.classList.add("visible");
+                    setTimeout(() => {
+                        lbSwipeHint.classList.remove("visible");
+                        sessionStorage.setItem("swipeHintSeen", "1");
+                    }, 2500);
+                }
             }
 
             function showZoom() {

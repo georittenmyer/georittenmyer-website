@@ -984,7 +984,7 @@ footer {
 @media (max-width: 640px) {
     .lb-zoom-close-desktop { display: none; }
     .lb-zoom-close-mobile { display: inline; }
-    .lb-prev, .lb-next { display: none; }
+
     .lb-zoom-wrap { padding: 80px 16px 60px; }
     .lb-zoom-close {
         font-size: 18px;
@@ -1002,6 +1002,27 @@ footer {
     font-family: sketchnote-square, sans-serif;
     font-size: 13px;
     letter-spacing: 0.1em;
+}
+
+.lb-swipe-hint {
+    position: absolute;
+    bottom: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent);
+    font-family: sketchnote-square, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.lb-swipe-hint.visible {
+    opacity: 1;
 }
 
 @media (max-width: 640px) {
