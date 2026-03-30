@@ -4,7 +4,7 @@ title: "Neowise"
 date: "2020-07-21"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/200721-neowise/20200711_0026-HDR.jpg"
 description: ""
-coverPosition: "center 50%"
+coverPosition: "center 75%"
 columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/200721-neowise/20200711_0032-HDR.jpg"

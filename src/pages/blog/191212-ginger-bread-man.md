@@ -4,7 +4,7 @@ title: "Ginger Bread Man"
 date: "2019-12-12"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/191212-ginger-bread-man/20191124_00185.jpg"
 description: ""
-coverPosition: "center 50%"
+coverPosition: "center 10%"
 columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/191212-ginger-bread-man/20191124_00185.jpg"

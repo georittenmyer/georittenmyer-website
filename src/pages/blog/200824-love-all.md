@@ -4,7 +4,7 @@ title: "Love All"
 date: "2020-08-24"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/200824-love-all/20200809_0079-2.jpg"
 description: ""
-coverPosition: "center 50%"
+coverPosition: "center 25%"
 columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/200824-love-all/20200809_0079-2.jpg"

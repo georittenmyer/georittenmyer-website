@@ -4,7 +4,7 @@ title: "DeeJayHershe"
 date: "2020-09-16"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/200916-deejayhershe/20200825_5240.jpg"
 description: ""
-coverPosition: "center 50%"
+coverPosition: "center 30%"
 columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/200916-deejayhershe/20200825_5240.jpg"

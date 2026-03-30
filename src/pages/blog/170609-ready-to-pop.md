@@ -4,7 +4,7 @@ title: "Ready to Pop"
 date: "2017-06-09"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/170609-ready-to-pop/20170604_0553.jpg"
 description: ""
-coverPosition: "center 50%"
+coverPosition: "center 20%"
 columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/170609-ready-to-pop/20170604_0605.jpg"

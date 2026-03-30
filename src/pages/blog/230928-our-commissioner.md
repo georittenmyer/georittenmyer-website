@@ -4,6 +4,7 @@ title: "Our Commissioner"
 date: "2023-09-28"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/230928-our-commissioner/20221203_0185-V2.jpg"
 description: "A portrait assignment for SeattleMet — photographing Washington's Public Lands Commissioner Hilary Franz for the spring issue."
+coverPosition: "center 20%"
 columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/230928-our-commissioner/20221203_0185-V2.jpg"

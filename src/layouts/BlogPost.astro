@@ -6,11 +6,12 @@ export interface Props {
     date: string;
     description: string;
     cover: string;
+    coverPosition?: string;
     images?: string[];
     columns?: number;
 }
 
-const { title, date, description, cover, images = [], columns = 3 } = Astro.props.frontmatter ?? Astro.props;
+const { title, date, description, cover, coverPosition = 'center', images = [], columns = 3 } = Astro.props.frontmatter ?? Astro.props;
 
 const formatted = new Date(String(date).replace(/-/g, '/')).toLocaleDateString("en-US", {
     year: "numeric",
@@ -64,6 +65,11 @@ const jsonLd = JSON.stringify({
             <h1>{title}</h1>
             <time datetime={date}>{formatted}</time>
             {description && <p class="post-desc">{description}</p>}
+            {cover && (
+                <div class="post-cover">
+                    <img src={cover} alt={title} style={`object-position: ${coverPosition}`} />
+                </div>
+            )}
         </header>
 
         <div class="post-body">
@@ -156,6 +162,20 @@ const jsonLd = JSON.stringify({
     }
 
     .post-header { margin-bottom: 40px; }
+
+    .post-cover {
+        margin-top: 32px;
+        width: 100%;
+        aspect-ratio: 16/6;
+        overflow: hidden;
+    }
+
+    .post-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
 
     .post-nav {
         display: flex;
