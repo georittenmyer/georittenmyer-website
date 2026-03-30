@@ -4,7 +4,7 @@ title: "Basic Package"
 date: "2025-02-26"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/250226-basic-package/AMZN_20241114_3050.jpg"
 description: "A studio challenge photographing Amazon device packaging for a story on sustainable product design."
-columns: 3
+columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/250226-basic-package/AMZN_20241114_3050.jpg"
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/250226-basic-package/AMZN_20241114_3058.jpg"
