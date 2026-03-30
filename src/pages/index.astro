@@ -62,6 +62,16 @@ const projectData = projects.map(p => ({
 </Base>
 
 <script>
+  // Shuffle images within each gallery once per page load
+  document.querySelectorAll<HTMLElement>('.card').forEach(card => {
+    const imgs: string[] = JSON.parse(card.dataset.images || '[]');
+    for (let i = imgs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [imgs[i], imgs[j]] = [imgs[j], imgs[i]];
+    }
+    card.dataset.images = JSON.stringify(imgs);
+  });
+
   // Randomize gallery order on each page load
   const grid = document.getElementById('mainGrid')!;
   const cards = Array.from(grid.children);
