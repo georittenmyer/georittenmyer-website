@@ -767,6 +767,7 @@ footer {
     text-transform: uppercase;
     color: var(--ink-soft);
     margin-bottom: 16px;
+    font-family: sans-serif;
 }
 
 .post-desc {
