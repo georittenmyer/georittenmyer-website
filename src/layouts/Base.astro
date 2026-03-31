@@ -33,6 +33,14 @@ import "../styles/global.css";
         <link rel="preconnect" href="https://p.typekit.net" crossorigin />
         <link rel="preconnect" href="https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev" crossorigin />
         <link rel="stylesheet" href="https://use.typekit.net/kgj2dsh.css" />
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-MB9ZBFSLWR');
+        </script>
         <slot name="head" />
         <script type="application/ld+json" set:html={JSON.stringify({
             "@context": "https://schema.org",

@@ -38,12 +38,38 @@ const projectData = projects.map(p => ({
   coverImages: p.images.slice(0, 3).map(img => BASE + img),
   cover: BASE + p.images[0],
 }));
+
+const projectSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "The Work",
+  "description": "Commercial photography projects by Geo Rittenmyer",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": projectData.map((p, i) => ({
+      "@type": "CreativeWork",
+      "position": i + 1,
+      "name": p.title,
+      "author": {
+        "@type": "Person",
+        "name": "Geo Rittenmyer",
+        "url": "https://georittenmyer.com"
+      },
+      "image": p.images.slice(0, 5),
+      "creator": {
+        "@type": "Person",
+        "name": "Geo Rittenmyer"
+      }
+    }))
+  }
+};
 ---
 
 <Base
   title="Geo Rittenmyer — Seattle Commercial Photographer"
   description="Seattle-based commercial photographer specializing in editorial, brand, events, and portrait work. Clients include Disney, ESPN, NBC Universal, Amazon, and Lyft."
 >
+  <script type="application/ld+json" set:html={JSON.stringify(projectSchema)} slot="head" />
   <div class="masonry" id="mainGrid">
     {projectData.map((p, i) => (
       <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-cover-images={JSON.stringify(p.coverImages)} data-title={p.title}>
