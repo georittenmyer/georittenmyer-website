@@ -203,6 +203,8 @@ const jsonLd = JSON.stringify({
         line-height: 1.1;
         letter-spacing: -0.01em;
         margin-bottom: 12px;
+        color: var(--accent);
+        font-family: cabin-sketch, sans-serif;
     }
 
     time {
@@ -210,7 +212,7 @@ const jsonLd = JSON.stringify({
         font-size: 13px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--ink-soft);
+        color: var(--ink);
         margin-bottom: 16px;
     }
 
@@ -226,10 +228,12 @@ const jsonLd = JSON.stringify({
     .post-body :global(p) { margin-bottom: 1.5em; }
 
     .post-body :global(h2) {
-        font-size: 28px;
-        font-weight: 300;
+        font-size: 30px;
+        font-weight: 400;
         letter-spacing: 0.02em;
         margin: 2.5em 0 0.75em;
+        color: var(--accent);
+        font-family: cabin-sketch, sans-serif;
     }
 
     .post-body :global(h3) {
@@ -337,7 +341,7 @@ const jsonLd = JSON.stringify({
         bottom: 24px;
         left: 50%;
         transform: translateX(-50%);
-        font-family: caveat, sans-serif;
+        font-family: cabin-sketch, sans-serif;
         font-size: 13px;
         letter-spacing: 0.1em;
         color: var(--ink-soft);
