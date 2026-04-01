@@ -12,20 +12,6 @@
     font-display: swap;
 }
 
-@font-face {
-    font-family: 'sarala';
-    src: url('/fonts/sarala-400.woff2') format('woff2');
-    font-weight: 400;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'sarala';
-    src: url('/fonts/sarala-700.woff2') format('woff2');
-    font-weight: 700;
-    font-display: swap;
-}
-
 *,
 *::before,
 *::after {
@@ -66,7 +52,7 @@ body {
         );
     background-attachment: fixed;
     color: var(--ink);
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-weight: 400;
     min-height: 100vh;
 }
@@ -247,7 +233,7 @@ nav {
 }
 .mobile-menu a {
     display: block;
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-size: 22px;
     font-weight: 400;
     letter-spacing: 0.06em;
@@ -520,7 +506,7 @@ footer {
 }
 
 .info-tagline {
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-size: 16px;
     font-style: italic;
     color: var(--accent);
@@ -569,7 +555,7 @@ footer {
 }
 
 .info-contact-secondary a {
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-size: 14px;
     color: var(--ink-soft);
     text-decoration: none;
@@ -584,7 +570,7 @@ footer {
     align-items: center;
     gap: 10px;
     margin-top: 16px;
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-size: 13px;
     color: var(--ink-soft);
 }
@@ -631,7 +617,7 @@ footer {
 }
 
 .marquee-track span {
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-size: 14px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -945,7 +931,7 @@ footer {
     padding-bottom: 4px;
 }
 .lb-close {
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-size: 13px;
     letter-spacing: 0.12em;
     padding: 7px 12px;
@@ -1013,7 +999,7 @@ footer {
     position: absolute;
     top: 24px;
     left: 6%;
-    font-family: sarala, sans-serif;
+    font-family: sans-serif;
     font-size: 13px;
     letter-spacing: 0.12em;
     padding: 7px 12px;
