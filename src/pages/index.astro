@@ -36,7 +36,6 @@ const projectData = projects.map(p => ({
   ...p,
   images: p.images.map(img => BASE + img),
   coverImages: p.images.slice(0, 3).map(img => BASE + img),
-  cover: BASE + p.images[0],
 }));
 
 const projectSchema = {
@@ -73,14 +72,6 @@ const projectSchema = {
   <div class="masonry" id="mainGrid">
     {projectData.map((p, i) => (
       <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-cover-images={JSON.stringify(p.coverImages)} data-title={p.title}>
-        {isVideo(p.cover) ? (
-          <video autoplay loop muted playsinline>
-            <source src={p.cover.replace('.mp4', '.webm')} type="video/webm" />
-            <source src={p.cover} type="video/mp4" />
-          </video>
-        ) : (
-          <img src={p.cover} alt={`${p.title} — commercial photography by Geo Rittenmyer`} loading={i < 4 ? 'eager' : 'lazy'} />
-        )}
         <div class="card-label"><span>{p.title}</span></div>
       </div>
     ))}
@@ -107,34 +98,27 @@ const projectSchema = {
     cards.splice(j, 1);
   }
 
-  // Randomize cover on each page load (from first 3 images only), swapping element type as needed
+  // Create cover image on each page load (from first 3 images only)
   const isVidSrc = (s: string) => s.endsWith('.mp4') || s.endsWith('.webm');
   document.querySelectorAll<HTMLElement>('.card').forEach(card => {
     const coverImages: string[] = JSON.parse(card.dataset.coverImages || '[]');
-    if (coverImages.length < 2) return;
+    if (coverImages.length === 0) return;
     const src = coverImages[Math.floor(Math.random() * coverImages.length)];
-    const existing = card.querySelector('img, video') as HTMLElement | null;
-    if (!existing) return;
+
     if (isVidSrc(src)) {
-      if (existing.tagName === 'VIDEO') {
-        const vid = existing as HTMLVideoElement;
-        vid.innerHTML = `<source src="${src.replace('.mp4', '.webm')}" type="video/webm"><source src="${src}" type="video/mp4">`;
-        vid.load();
-      } else {
-        const vid = document.createElement('video');
-        vid.autoplay = true; vid.loop = true; vid.muted = true; vid.playsInline = true;
-        vid.innerHTML = `<source src="${src.replace('.mp4', '.webm')}" type="video/webm"><source src="${src}" type="video/mp4">`;
-        existing.replaceWith(vid);
-      }
+      const vid = document.createElement('video');
+      vid.autoplay = true;
+      vid.loop = true;
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.innerHTML = `<source src="${src.replace('.mp4', '.webm')}" type="video/webm"><source src="${src}" type="video/mp4">`;
+      card.insertBefore(vid, card.firstChild);
     } else {
-      if (existing.tagName === 'IMG') {
-        (existing as HTMLImageElement).src = src;
-      } else {
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `${card.dataset.title} — commercial photography by Geo Rittenmyer`;
-        existing.replaceWith(img);
-      }
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `${card.dataset.title} — commercial photography by Geo Rittenmyer`;
+      img.loading = 'lazy';
+      card.insertBefore(img, card.firstChild);
     }
   });
 
