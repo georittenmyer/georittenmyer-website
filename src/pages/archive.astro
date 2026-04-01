@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const BASE = 'https://images.squarespace-cdn.com/content/v1/50c4bd4be4b0112a45d7e1e2/';
+const BASE = 'https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/archive/';
 
 const projects = [
   { id: 'olympics', title: '2012 Olympics', images: ['1609312595307-DB4AK3E9ANOPKZOK4XPC/20070523_0044_101.jpg','1590034115129-CIDUXSURZF8K1TXD95QX/20070523_0041.jpg','1590034121175-WSOAG23PQCNI2V2WEQYW/20070514_0045.jpg','1590034146539-271YJR7IX2MQX17AXFN8/20070523_0052.jpg'] },
@@ -27,19 +27,30 @@ const projects = [
   { id: 'ltrain', title: 'The L\u2022Train', images: ['1de82a2c-0bb1-47a5-a30b-6983d9dea31e/_MG_8203.jpg','393e81b6-93d9-4239-bd29-180cdb428280/_MG_2159.jpg','bb70c5d8-3971-4c2e-93fa-c4bce1f4eeb7/_MG_2056.jpg','ac40ca63-65ea-485b-ac45-7e1d52f40665/_MG_1415.jpg','2c10fe45-c5e4-44bb-93e6-d31616fbbc32/_MG_2192.jpg','6771e400-6fb8-4fda-b60d-1d8410d6e9d8/_MG_1332.jpg','1fd7a583-30c1-4ec1-9acf-02aeb2a3e3e8/_MG_0960.jpg','e41bcb58-2834-4111-b8f1-9c8aa0be7927/_MG_1277.jpg','bfcd90b3-2393-4c73-8bc1-80376f535522/_MG_0278.jpg','acca9e23-e3d2-4bcf-bec5-02cef7bf3f8a/_MG_1050.jpg','a3893cff-0759-4c93-b592-73a44d527bc4/_MG_0455.jpg','4ad700a2-03a9-4562-ab23-9fbd042f19a6/_MG_0213.jpg','305b7c51-5772-47dd-9682-1f20d575f18d/_MG_0885.jpg','e0238cab-fb98-4c68-a455-1bf0e4092567/_MG_0350.jpg'] },
 ];
 
-const projectData = projects.map(p => ({
-  ...p,
-  images: p.images.map(img => BASE + img),
-  coverImages: p.images.slice(0, 3).map(img => BASE + img),
-  cover: BASE + p.images[0],
-}));
+const projectData = projects.map(p => {
+  const imageObjects = p.images.map(img => ({
+    jpg: BASE + img,
+    avif: BASE + img.replace('.jpg', '.avif')
+  }));
+  const jpgImages = imageObjects.map(img => img.jpg);
+  return {
+    ...p,
+    images: imageObjects,
+    jpgImages: jpgImages,
+    coverImages: jpgImages.slice(0, 3),
+    cover: imageObjects[0],
+  };
+});
 ---
 
 <Base title="Geo Rittenmyer — The Archive">
   <div class="masonry" id="archiveGrid">
     {projectData.map((p, i) => (
-      <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.images)} data-cover-images={JSON.stringify(p.coverImages)} data-title={p.title}>
-        <img src={p.cover} alt={p.title} loading={i < 4 ? 'eager' : 'lazy'} />
+      <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.jpgImages)} data-cover-images={JSON.stringify(p.coverImages)} data-title={p.title}>
+        <picture>
+          <source srcset={p.cover.avif} type="image/avif" />
+          <img src={p.cover.jpg} alt={p.title} loading={i < 4 ? 'eager' : 'lazy'} />
+        </picture>
         <div class="card-label"><span>{p.title}</span></div>
       </div>
     ))}
@@ -50,8 +61,12 @@ const projectData = projects.map(p => ({
   document.querySelectorAll<HTMLElement>('.card').forEach(card => {
     const coverImages: string[] = JSON.parse(card.dataset.coverImages || '[]');
     if (coverImages.length > 1) {
+      const selected = coverImages[Math.floor(Math.random() * coverImages.length)];
+      const source = card.querySelector('source[type="image/avif"]') as HTMLSourceElement;
       const img = card.querySelector('img') as HTMLImageElement;
-      img.src = coverImages[Math.floor(Math.random() * coverImages.length)];
+      const avifUrl = selected.replace('.jpg', '.avif');
+      if (source) source.srcset = avifUrl;
+      img.src = selected;
     }
   });
 </script>
