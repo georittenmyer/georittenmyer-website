@@ -375,7 +375,13 @@ import "../styles/global.css";
                 } else {
                     lbZoomVideo.style.display = "none";
                     lbZoomImg.style.display = "";
-                    lbZoomImg.src = src;
+                    // Try AVIF first, fall back to JPG on error
+                    const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
+                    lbZoomImg.onerror = () => {
+                        lbZoomImg.onerror = null;
+                        lbZoomImg.src = src;
+                    };
+                    lbZoomImg.src = avifSrc;
                 }
                 lbCounter.textContent = `${current + 1} / ${images.length}`;
             }
