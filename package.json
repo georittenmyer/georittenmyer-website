@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
-    "astro": "^6.1.0"
+    "astro": "^6.1.0",
+    "puppeteer": "^24.40.0"
   }
 }

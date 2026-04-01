@@ -28,10 +28,14 @@ const projects = [
 ];
 
 const projectData = projects.map(p => {
-  const imageObjects = p.images.map(img => ({
-    jpg: BASE + img,
-    avif: BASE + img.replace('.jpg', '.avif')
-  }));
+  const imageObjects = p.images.map(imagePath => {
+    // Extract filename from path (handles both old Squarespace paths and simple filenames)
+    const filename = imagePath.includes('/') ? imagePath.split('/').pop() : imagePath;
+    return {
+      jpg: BASE + p.id + '/' + filename,
+      avif: BASE + p.id + '/' + filename.replace('.jpg', '.avif').replace('.jpeg', '.avif').replace('.png', '.avif').replace('.gif', '.avif')
+    };
+  });
   const jpgImages = imageObjects.map(img => img.jpg);
   return {
     ...p,
