@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 
 const BASE = 'https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/kodachrome/';
 
-const images = [
+const imageNames = [
   'Scan_20130315_00035.jpg',
   'Scan_20130315_00036.jpg',
   'Scan_20130321_00084.jpg',
@@ -49,7 +49,12 @@ const images = [
   'Scan_20151130_0236.jpg',
   'Scan_20151130_0245.jpg',
   'Scan_20151130_0260.jpg',
-].map(p => BASE + p);
+];
+
+const images = imageNames.map(name => ({
+  jpg: BASE + name,
+  avif: BASE + name.replace('.jpg', '.avif')
+}));
 ---
 
 <Base
@@ -65,9 +70,12 @@ const images = [
         </div>
 
         <div class="koda-grid" id="kodaGrid">
-            {images.map((src, i) => (
+            {images.map((img, i) => (
                 <button class="koda-cell" data-index={i} aria-label={`Photo ${i + 1}`}>
-                    <img src={src} alt={`Kodachrome ${i + 1}`} loading={i < 9 ? 'eager' : 'lazy'} />
+                    <picture>
+                        <source srcset={img.avif} type="image/avif" />
+                        <img src={img.jpg} alt={`Kodachrome ${i + 1}`} loading={i < 9 ? 'eager' : 'lazy'} />
+                    </picture>
                 </button>
             ))}
         </div>
@@ -91,9 +99,11 @@ const images = [
 </Base>
 
 <script is:inline>
-    var allImages = Array.from(document.querySelectorAll('#kodaGrid img')).map(function(img) {
+    var allImages = Array.from(document.querySelectorAll('#kodaGrid source[type="image/avif"]')).map(function(source) {
+        return source.srcset;
+    }).concat(Array.from(document.querySelectorAll('#kodaGrid img')).map(function(img) {
         return img.src;
-    });
+    }));
 
     var zoom      = document.getElementById('kodaZoom');
     var zoomImg   = document.getElementById('kodaZoomImg');
