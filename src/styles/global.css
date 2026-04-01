@@ -391,6 +391,13 @@ footer {
     animation: fadeUp 0.5s ease both;
 }
 
+/* Remove box-shadow in Safari due to columns layout bleed */
+@supports (-webkit-appearance: none) {
+    .card {
+        box-shadow: none;
+    }
+}
+
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -959,6 +966,16 @@ footer {
     display: block;
     cursor: zoom-in;
     transition: opacity 0.2s;
+}
+
+/* Safari-specific fixes */
+@supports (-webkit-appearance: none) {
+    .lb-grid {
+        grid-auto-rows: 40vw;
+    }
+    .lb-grid > * {
+        overflow: hidden;
+    }
 }
 .lb-grid img:hover,
 .lb-grid video:hover {

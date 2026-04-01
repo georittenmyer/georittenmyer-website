@@ -327,7 +327,7 @@ import "../styles/global.css";
                         vid.loop = true;
                         vid.muted = true;
                         vid.playsInline = true;
-                        vid.innerHTML = `<source src="${src.replace('.mp4', '.webm')}" type="video/webm"><source src="${src}" type="video/mp4">`;
+                        vid.innerHTML = `<source src="${src}" type="video/mp4">`;
                         vid.addEventListener("click", () => openZoom(i));
                         lbGrid.appendChild(vid);
                     } else {
@@ -379,7 +379,7 @@ import "../styles/global.css";
                 if (isVideo(src)) {
                     lbZoomImg.style.display = "none";
                     lbZoomVideo.style.display = "block";
-                    lbZoomVideo.innerHTML = `<source src="${src.replace('.mp4', '.webm')}" type="video/webm"><source src="${src}" type="video/mp4">`;
+                    lbZoomVideo.innerHTML = `<source src="${src}" type="video/mp4">`;
                     lbZoomVideo.load();
                     lbZoomVideo.play();
                 } else {
