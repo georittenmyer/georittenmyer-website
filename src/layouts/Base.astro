@@ -11,8 +11,6 @@ const {
     ogImage = "/images/Logo_Center.png",
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
-import "../styles/global.css";
 ---
 
 <!doctype html>
@@ -29,6 +27,9 @@ import "../styles/global.css";
         <meta property="og:url" content={canonicalURL} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
+        <!-- Global styles (deferred) -->
+        <link rel="stylesheet" href="/styles/global.css" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="/styles/global.css" /></noscript>
         <!-- Google Analytics (deferred) -->
         <script>
           window.dataLayer = window.dataLayer || [];
