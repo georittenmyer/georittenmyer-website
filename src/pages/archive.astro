@@ -17,7 +17,7 @@ const projects = [
   { id: 'sounders', title: 'Sounders FanClub', images: ['1707327927952-207SR7Z4EG85YYGBYJF6/Sounders_150_0053.jpg','1707327929021-45L07J03CDP99NH3LJX9/Sounders_188_0064.jpg','1707327934210-1J1U0INFCR6W2BJLHGDB/Sounders_204_0114.jpg','1707327934700-QCSK7CB8LDXXHKP211VV/Sounders_110_0031.jpg'] },
   { id: 'scotland', title: 'Scotland', images: ['c0fa8e1d-f726-4ebf-903b-0ad2f6990608/20180926_1053-Pano.jpg','8dfaf438-6bb8-4131-b7d2-f4e1ee8603bc/20180927_0021.jpg','b2d0c984-7386-459b-8de7-9fe82167757d/20180930_0318.jpg','184de361-a79f-4bf5-bb04-e34e11f75822/20180927_0055.jpg','6799b204-693b-4032-b3ec-c258bf8f5f9d/20180924_0502-HDR-2.jpg','61030974-5c8e-4b26-8e8e-24a3a7e7055b/20180928_0328-Pano.jpg','3478f41c-68b3-41b9-a867-08739ec5a4f9/20180926_0637.jpg','814d7895-fc6b-4e31-86d3-e3da2e944bdf/20180926_0060.jpg','56d1355e-8e31-4075-87ca-ea665e410a15/20180924_0039.jpg','d8596259-b6d5-4be2-9888-2198f7331e86/20180926_0452.jpg','9a966b6f-7b5e-43c6-925e-ca580e6e73ff/20180926_0597.jpg','32871ecb-a68b-4d41-8c50-468185c1babd/20180925_0259.jpg','77de4186-f5ce-4c7b-9fde-4c3f7a69b640/20180925_0142.jpg','54f3821b-4e48-445e-9a5c-63acd25775bf/20180926_0257.jpg'] },
   { id: 'florida', title: "Florida's Energy Landscape", images: ['1707154500657-ARV1PXPFKJZK9VUGN4SK/20081220_0025-Edit.jpg','1707154500433-FP9FX3ZSTS45LUMFAFW3/20090102_0080-Edit.jpg'] },
-  { id: 'needlegraphs', title: 'Needle-graphs', images: ['1590125346584-TSFLZTQNJO241EQNJ668/planeNeedle.gif','1590124994986-GLK05B5C0DFM8FQGUWJT/NeedleDusk2.gif','1590124995984-4UVXCAOY4C5S49MJ4AGS/NeedleTrees2.gif'] },
+  { id: 'needlegraphs', title: 'Needle-graphs', images: ['planeNeedle.gif','NeedleDusk2.gif','NeedleTrees2.gif'] },
   { id: 'hotties', title: 'Hotties', images: ['3b2255d4-4e26-4565-a4a0-38a7c513b967/20210306_0267.jpg','e205fe1b-814f-46ad-aad6-b3db5cc47cb2/20210306_0545.jpg','cb073e43-cf81-4720-8dc2-b3c5dba63b25/20210306_0612.jpg','41cc19a9-9cda-4756-baf3-43db91b1921b/20210306_0651.jpg'] },
   { id: 'goldengeneration', title: 'Golden Generation', images: ['1776b9c4-ee02-4ab9-85d7-962af3833d6c/20160726_0303.jpg','2796a0ad-acd2-4152-afb6-fde92f204932/20160726_0024.jpg','decf592f-5cda-41d0-a988-1c4ccc2e6b82/20160726_0264.jpg','efe90d33-8340-4cbe-898d-2689b0d31404/20160726_0100.jpg','25c38a0c-c35e-4ef6-bce9-2f11e3c6ab94/20160726_0277.jpg','dfb29632-8c52-4d9d-8be0-8fad62346827/20160714_0240.jpg','dd378f72-8b18-4d4d-8404-4c5c32563596/20160726_0176.jpg','c8fd6450-b5bd-4d87-bb83-f7fad786011c/20160726_0048.jpg','b5e7b41e-d29e-422d-8471-777d12cb0ac2/20160726_0060.jpg','702869e0-cd31-4d8d-b90c-6c501a3567df/20160714_0360.jpg','0124621c-3b43-49f0-b02d-5a9a3f88c431/20160726_0012.jpg','02ebb4a1-bccf-48e5-8ee8-cd59bbe2acde/20160714_0205.jpg','97be40bb-b541-4b56-b2a3-977c5f5c15cc/20160714_0280.jpg','74b511a8-c1cd-421e-8641-44bb8cd5112f/20160714_0080.jpg','20bec997-cf45-404e-962a-0a1617581680/20160714_0123.jpg','2d094f20-4ca3-464d-af6c-1d1efb8de20e/20160714_0037.jpg','2f1d8a7b-62da-4345-b60c-6b26b1479b44/20160714_0065.jpg','a21df365-2835-4fb4-91fd-4c5e90bd896e/20160714_0021.jpg'] },
   { id: 'wfh', title: 'Work From Home', images: ['1707157352510-US0U2OXK848L7RFG7WAO/20130426_0793-1.jpg','1707157351619-WPYNS2N1MOZFWTA7MDRM/20130426_1149.jpg'] },
@@ -31,9 +31,10 @@ const projectData = projects.map(p => {
   const imageObjects = p.images.map(imagePath => {
     // Extract filename from path (handles both old Squarespace paths and simple filenames)
     const filename = imagePath.includes('/') ? imagePath.split('/').pop() : imagePath;
+    const isGif = filename.toLowerCase().endsWith('.gif');
     return {
       jpg: BASE + p.id + '/' + filename,
-      avif: BASE + p.id + '/' + filename.replace('.jpg', '.avif').replace('.jpeg', '.avif').replace('.png', '.avif').replace('.gif', '.avif')
+      avif: isGif ? null : BASE + p.id + '/' + filename.replace('.jpg', '.avif').replace('.jpeg', '.avif').replace('.png', '.avif')
     };
   });
   const jpgImages = imageObjects.map(img => img.jpg);
@@ -52,7 +53,7 @@ const projectData = projects.map(p => {
     {projectData.map((p, i) => (
       <div class="card" style={`animation-delay: ${i * 40}ms`} data-images={JSON.stringify(p.jpgImages)} data-cover-images={JSON.stringify(p.coverImages)} data-title={p.title}>
         <picture>
-          <source srcset={p.cover.avif} type="image/avif" />
+          {p.cover.avif && <source srcset={p.cover.avif} type="image/avif" />}
           <img src={p.cover.jpg} alt={p.title} loading={i < 4 ? 'eager' : 'lazy'} />
         </picture>
         <div class="card-label"><span>{p.title}</span></div>
