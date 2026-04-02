@@ -469,6 +469,8 @@ footer {
     .card {
         box-shadow: none;
         margin-bottom: 3%;
+        min-height: auto;
+        background-color: transparent;
     }
 }
 
