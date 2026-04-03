@@ -1,4 +1,11 @@
 ---
+declare global {
+    interface Window {
+        dataLayer: any[];
+        gtag: (...args: any[]) => void;
+    }
+}
+
 export interface Props {
     title: string;
     description?: string;
@@ -29,30 +36,18 @@ import "../styles/global.css";
         <meta property="og:url" content={canonicalURL} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <!-- Google Analytics (deferred) -->
+        <!-- Google Analytics -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR"
+        ></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
+            function gtag(...args: any[]) {
+                window.dataLayer.push(args);
             }
             gtag("js", new Date());
             gtag("config", "G-MB9ZBFSLWR");
-            // Load GA script after page interactive
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", function () {
-                    const script = document.createElement("script");
-                    script.async = true;
-                    script.src =
-                        "https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR";
-                    document.head.appendChild(script);
-                });
-            } else {
-                const script = document.createElement("script");
-                script.async = true;
-                script.src =
-                    "https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR";
-                document.head.appendChild(script);
-            }
         </script>
         <slot name="head" />
         <script
