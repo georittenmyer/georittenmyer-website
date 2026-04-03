@@ -31,74 +31,83 @@ import "../styles/global.css";
         <meta name="twitter:card" content="summary_large_image" />
         <!-- Google Analytics (deferred) -->
         <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-MB9ZBFSLWR');
-          // Load GA script after page interactive
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-              const script = document.createElement('script');
-              script.async = true;
-              script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR';
-              document.head.appendChild(script);
-            });
-          } else {
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR';
-            document.head.appendChild(script);
-          }
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", "G-MB9ZBFSLWR");
+            // Load GA script after page interactive
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", function () {
+                    const script = document.createElement("script");
+                    script.async = true;
+                    script.src =
+                        "https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR";
+                    document.head.appendChild(script);
+                });
+            } else {
+                const script = document.createElement("script");
+                script.async = true;
+                script.src =
+                    "https://www.googletagmanager.com/gtag/js?id=G-MB9ZBFSLWR";
+                document.head.appendChild(script);
+            }
         </script>
         <slot name="head" />
-        <script type="application/ld+json" set:html={JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": [
-                {
-                    "@type": "Person",
-                    "@id": "https://georittenmyer.com/#person",
-                    "name": "Geo Rittenmyer",
-                    "url": "https://georittenmyer.com",
-                    "image": "https://georittenmyer.com/images/portrait.jpg",
-                    "jobTitle": "Photographer",
-                    "description": "Seattle-based commercial photographer and visual storyteller specializing in editorial, brand, events, and portrait work.",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "Seattle",
-                        "addressRegion": "WA",
-                        "addressCountry": "US"
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "Person",
+                        "@id": "https://georittenmyer.com/#person",
+                        name: "Geo Rittenmyer",
+                        url: "https://georittenmyer.com",
+                        image: "https://georittenmyer.com/images/portrait.jpg",
+                        jobTitle: "Photographer",
+                        description:
+                            "Seattle-based commercial photographer and visual storyteller specializing in editorial, brand, events, and portrait work.",
+                        address: {
+                            "@type": "PostalAddress",
+                            addressLocality: "Seattle",
+                            addressRegion: "WA",
+                            addressCountry: "US",
+                        },
+                        email: "geo@georittenmyer.com",
+                        telephone: "+16465849860",
+                        sameAs: [
+                            "https://www.instagram.com/georittenmyer/",
+                            "https://www.linkedin.com/in/georittenmyer/",
+                        ],
+                        knowsAbout: [
+                            "Commercial Photography",
+                            "Editorial Photography",
+                            "Brand Photography",
+                            "Portrait Photography",
+                            "Event Photography",
+                            "Studio Photography",
+                            "Location Photography",
+                        ],
+                        worksFor: {
+                            "@type": "Organization",
+                            name: "Geo Rittenmyer Photography",
+                            url: "https://georittenmyer.com",
+                        },
                     },
-                    "email": "geo@georittenmyer.com",
-                    "telephone": "+16465849860",
-                    "sameAs": [
-                        "https://www.instagram.com/georittenmyer/",
-                        "https://www.linkedin.com/in/georittenmyer/"
-                    ],
-                    "knowsAbout": [
-                        "Commercial Photography",
-                        "Editorial Photography",
-                        "Brand Photography",
-                        "Portrait Photography",
-                        "Event Photography",
-                        "Studio Photography",
-                        "Location Photography"
-                    ],
-                    "worksFor": {
-                        "@type": "Organization",
-                        "name": "Geo Rittenmyer Photography",
-                        "url": "https://georittenmyer.com"
-                    }
-                },
-                {
-                    "@type": "WebSite",
-                    "@id": "https://georittenmyer.com/#website",
-                    "url": "https://georittenmyer.com",
-                    "name": "Geo Rittenmyer",
-                    "description": "Seattle commercial photographer — editorial, brand, events, and portrait work for Disney, ESPN, NBC Universal, Amazon, Lyft, and more.",
-                    "author": { "@id": "https://georittenmyer.com/#person" }
-                }
-            ]
-        })} />
+                    {
+                        "@type": "WebSite",
+                        "@id": "https://georittenmyer.com/#website",
+                        url: "https://georittenmyer.com",
+                        name: "Geo Rittenmyer",
+                        description:
+                            "Seattle commercial photographer — editorial, brand, events, and portrait work for Disney, ESPN, NBC Universal, Amazon, Lyft, and more.",
+                        author: { "@id": "https://georittenmyer.com/#person" },
+                    },
+                ],
+            })}
+        />
     </head>
     <body>
         <nav>
@@ -232,10 +241,10 @@ import "../styles/global.css";
             <div class="lb-grid" id="lb-grid"></div>
             <!-- Single image zoom view -->
             <div class="lb-zoom" id="lb-zoom">
-                <button
-                    class="lb-zoom-close lb-key-btn"
-                    aria-label="Close"
-                    ><span class="lb-zoom-close-desktop">ESC</span><span class="lb-zoom-close-mobile">✕</span></button
+                <button class="lb-zoom-close lb-key-btn" aria-label="Close"
+                    ><span class="lb-zoom-close-desktop">ESC</span><span
+                        class="lb-zoom-close-mobile">✕</span
+                    ></button
                 >
                 <button class="lb-prev lb-key-btn" aria-label="Previous">
                     <svg
@@ -265,13 +274,43 @@ import "../styles/global.css";
                 </button>
                 <div class="lb-zoom-wrap">
                     <img id="lb-zoom-img" src="" alt="" />
-                    <video id="lb-zoom-video" autoplay loop muted playsinline style="display:none"></video>
+                    <video
+                        id="lb-zoom-video"
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                        style="display:none"></video>
                 </div>
                 <div class="lb-counter" id="lb-counter"></div>
-                <div class="lb-swipe-hint" id="lb-swipe-hint" aria-hidden="true">
-                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 4 6 9 11 14"/></svg>
+                <div
+                    class="lb-swipe-hint"
+                    id="lb-swipe-hint"
+                    aria-hidden="true"
+                >
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><polyline points="11 4 6 9 11 14"></polyline></svg
+                    >
                     <span>swipe</span>
-                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 4 12 9 7 14"/></svg>
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><polyline points="7 4 12 9 7 14"></polyline></svg
+                    >
                 </div>
             </div>
         </div>
@@ -313,7 +352,8 @@ import "../styles/global.css";
             let images: string[] = [];
             let current = 0;
             let directZoom = false; // true when zoom opened directly (mobile, no grid)
-            const isVideo = (src: string) => src.endsWith('.mp4') || src.endsWith('.webm');
+            const isVideo = (src: string) =>
+                src.endsWith(".mp4") || src.endsWith(".webm");
 
             function openLightbox(imgs: string[], title: string) {
                 images = imgs;
@@ -386,7 +426,7 @@ import "../styles/global.css";
                     lbZoomVideo.style.display = "none";
                     lbZoomImg.style.display = "";
                     // Try AVIF first, fall back to JPG on error
-                    const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
+                    const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, ".avif");
                     lbZoomImg.onerror = () => {
                         lbZoomImg.onerror = null;
                         lbZoomImg.src = src;
@@ -405,8 +445,8 @@ import "../styles/global.css";
                 showZoom();
             });
             lbClose.addEventListener("click", closeLightbox);
-            const isMobile = () => window.matchMedia("(max-width: 640px)").matches;
-
+            const isMobile = () =>
+                window.matchMedia("(max-width: 640px)").matches;
 
             lbZoomClose.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -422,7 +462,9 @@ import "../styles/global.css";
                 const target = e.target as HTMLElement;
                 if (
                     target === lightbox ||
-                    (!target.closest("img") && !target.closest("video") && !target.closest("button"))
+                    (!target.closest("img") &&
+                        !target.closest("video") &&
+                        !target.closest("button"))
                 ) {
                     closeLightbox();
                 }
@@ -456,19 +498,27 @@ import "../styles/global.css";
 
             // Swipe navigation on mobile
             let touchStartX = 0;
-            lbZoom.addEventListener("touchstart", (e) => {
-                touchStartX = e.changedTouches[0].clientX;
-            }, { passive: true });
-            lbZoom.addEventListener("touchend", (e) => {
-                const diff = touchStartX - e.changedTouches[0].clientX;
-                if (Math.abs(diff) < 50) return;
-                if (diff > 0) {
-                    current = (current + 1) % images.length;
-                } else {
-                    current = (current - 1 + images.length) % images.length;
-                }
-                showZoom();
-            }, { passive: true });
+            lbZoom.addEventListener(
+                "touchstart",
+                (e) => {
+                    touchStartX = e.changedTouches[0].clientX;
+                },
+                { passive: true },
+            );
+            lbZoom.addEventListener(
+                "touchend",
+                (e) => {
+                    const diff = touchStartX - e.changedTouches[0].clientX;
+                    if (Math.abs(diff) < 50) return;
+                    if (diff > 0) {
+                        current = (current + 1) % images.length;
+                    } else {
+                        current = (current - 1 + images.length) % images.length;
+                    }
+                    showZoom();
+                },
+                { passive: true },
+            );
 
             // Open lightbox on card click (only div cards with data-images, not <a> link cards)
             document.addEventListener("click", (e) => {
