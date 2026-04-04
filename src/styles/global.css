@@ -381,8 +381,6 @@ footer {
     overflow: hidden;
     display: block;
     margin-bottom: 5%;
-    min-height: 300px;
-    background-color: #ddd;
     box-shadow:
         0 12px 40px rgba(0, 0, 0, 0.45),
         0 4px 12px rgba(0, 0, 0, 0.25);
@@ -469,8 +467,6 @@ footer {
     .card {
         box-shadow: none;
         margin-bottom: 3%;
-        min-height: auto;
-        background-color: transparent;
     }
 }
 
