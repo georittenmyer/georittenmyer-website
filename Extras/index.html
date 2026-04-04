@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GA Realtime Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: #fff;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .auth-btn {
+            padding: 10px 20px;
+            background: #1f2937;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .auth-btn:hover {
+            background: #374151;
+        }
+
+        .user-info {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            overflow: auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h2 {
+            font-size: 13px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .table-card {
+            grid-column: 1 / -1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 11px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f3f4f6;
+            color: #374151;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 20px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .refresh-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            .table-card {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>📊 GA4 Realtime Monitor</h1>
+            <div class="status">
+                <div class="status-dot"></div>
+                Live data updates
+            </div>
+        </div>
+        <div>
+            <button id="authBtn" class="auth-btn">Sign in with Google</button>
+            <div id="userInfo" class="user-info" style="display: none; margin-top: 8px;"></div>
+        </div>
+    </div>
+
+    <div class="content" id="content">
+        <div class="loading">Click "Sign in with Google" to begin</div>
+    </div>
+
+    <script>
+        const CLIENT_ID = '778640108957-2jnvs4bdskukhobjqtjihjml3qqfgnql.apps.googleusercontent.com';
+        const PROPERTY_ID = '353178013';
+        const WORKER_URL = 'https://ga-oauth.geo-rittenmyer.workers.dev';
+        const API_ENDPOINT = 'https://analyticsdata.googleapis.com/v1beta/properties/' + PROPERTY_ID + ':runRealtimeReport';
+
+        let accessToken = null;
+        let refreshInterval = null;
+
+        document.getElementById('authBtn').addEventListener('click', () => {
+            const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+            authUrl.searchParams.append('client_id', CLIENT_ID);
+            authUrl.searchParams.append('redirect_uri', window.location.origin);
+            authUrl.searchParams.append('response_type', 'code');
+            authUrl.searchParams.append('scope', 'https://www.googleapis.com/auth/analytics.readonly');
+            authUrl.searchParams.append('access_type', 'online');
+
+            window.location.href = authUrl.toString();
+        });
+
+        function exchangeCodeForToken(code) {
+            console.log('Exchanging code for token via worker...');
+            fetch(WORKER_URL + '/oauth/token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    code: code,
+                    redirect_uri: window.location.origin
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log('Token response:', data);
+                if (data.access_token) {
+                    accessToken = data.access_token;
+                    document.getElementById('authBtn').style.display = 'none';
+                    document.getElementById('userInfo').style.display = 'block';
+                    document.getElementById('userInfo').textContent = 'Authenticated ✓';
+                    fetchRealtimeData();
+                    // Refresh every 5 seconds
+                    refreshInterval = setInterval(fetchRealtimeData, 5000);
+                } else {
+                    showError('Failed to get access token: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Token exchange error:', err);
+                showError('Authentication failed: ' + err.message);
+            });
+        }
+
+        function fetchRealtimeData() {
+            if (!accessToken) return;
+
+            const body = {
+                metrics: [
+                    { name: 'activeUsers' }
+                ],
+                minuteRanges: [
+                    {
+                        startMinutesAgo: 29,
+                        endMinutesAgo: 0
+                    }
+                ]
+            };
+
+            fetch(API_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            })
+            .then(res => {
+                if (res.status === 401) {
+                    accessToken = null;
+                    showError('Session expired. Please sign in again.');
+                    clearInterval(refreshInterval);
+                    document.getElementById('authBtn').style.display = 'block';
+                    document.getElementById('userInfo').style.display = 'none';
+                    document.getElementById('content').innerHTML = '<div class="loading">Click "Sign in with Google" to begin</div>';
+                    return null;
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data) {
+                    if (data.error) {
+                        showError('API Error: ' + data.error.message);
+                    } else {
+                        renderData(data);
+                    }
+                }
+            })
+            .catch(err => {
+                console.error('API error:', err);
+                showError('Failed to fetch data: ' + err.message);
+            });
+        }
+
+        function renderData(data) {
+            const totalActiveUsers = data.totals?.[0]?.metricValues?.[0]?.value || '0';
+
+            let html = `
+                <div class="card">
+                    <h2>Active Users (Last 29 min)</h2>
+                    <div class="metric-value">${totalActiveUsers}</div>
+                    <div class="metric-label">Real-time visitors</div>
+                    <div class="refresh-time">Updated ${new Date().toLocaleTimeString()}</div>
+                </div>
+
+                <div class="card">
+                    <h2>Realtime Status</h2>
+                    <div style="padding: 20px 0;">
+                        <div style="font-size: 14px; color: #666; line-height: 1.8;">
+                            <div>✅ Dashboard connected</div>
+                            <div>✅ GA4 API responding</div>
+                            <div>✅ Auto-refreshing every 5 seconds</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('content').innerHTML = html;
+        }
+
+        function showError(msg) {
+            document.getElementById('content').innerHTML = `<div class="error">${msg}</div>`;
+        }
+
+        // Check for auth code in URL (OAuth redirect)
+        const params = new URLSearchParams(window.location.search);
+        console.log('URL params:', Object.fromEntries(params));
+        if (params.has('code')) {
+            console.log('Auth code found, exchanging...');
+            exchangeCodeForToken(params.get('code'));
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Debug: Log when page loads
+        console.log('GA Monitor loaded. Client ID:', CLIENT_ID.substring(0, 10) + '...');
+    </script>
+</body>
+</html>
