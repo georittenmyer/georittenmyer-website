@@ -58,7 +58,7 @@
             flex: 1;
             padding: 20px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             overflow: auto;
         }
@@ -66,10 +66,12 @@
         .card {
             background: white;
             border-radius: 8px;
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
+            min-height: 200px;
+            justify-content: center;
         }
 
         .card h2 {
@@ -177,12 +179,15 @@
             margin-top: 12px;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
             .content {
                 grid-template-columns: 1fr;
-            }
-            .table-card {
-                grid-column: 1;
             }
         }
     </style>
@@ -203,14 +208,34 @@
     </div>
 
     <div class="content" id="content">
-        <div class="loading">Click "Sign in with Google" to begin</div>
+        <div>
+            <h3 style="margin-bottom: 12px; font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">georittenmyer.com</h3>
+            <div class="card" id="prop1">
+                <div class="loading">Click "Sign in with Google" to begin</div>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom: 12px; font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">SBK8raised.org</h3>
+            <div class="card" id="prop2">
+                <div class="loading">Click "Sign in with Google" to begin</div>
+            </div>
+        </div>
+        <div>
+            <h3 style="margin-bottom: 12px; font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">crittenmyer.com</h3>
+            <div class="card" id="prop3">
+                <div class="loading">Click "Sign in with Google" to begin</div>
+            </div>
+        </div>
     </div>
 
     <script>
         const CLIENT_ID = '778640108957-2jnvs4bdskukhobjqtjihjml3qqfgnql.apps.googleusercontent.com';
-        const PROPERTY_ID = '353178013';
+        const PROPERTIES = [
+            { id: '353178013', name: 'georittenmyer.com', containerId: 'prop1' },
+            { id: '528064164', name: 'SBK8raised.org', containerId: 'prop2' },
+            { id: '526876584', name: 'crittenmyer.com', containerId: 'prop3' }
+        ];
         const WORKER_URL = 'https://ga-oauth.geo-rittenmyer.workers.dev';
-        const API_ENDPOINT = 'https://analyticsdata.googleapis.com/v1beta/properties/' + PROPERTY_ID + ':runRealtimeReport';
 
         let accessToken = null;
         let refreshInterval = null;
@@ -244,9 +269,12 @@
                     document.getElementById('authBtn').style.display = 'none';
                     document.getElementById('userInfo').style.display = 'block';
                     document.getElementById('userInfo').textContent = 'Authenticated ✓';
-                    fetchRealtimeData();
+                    // Fetch data for all properties
+                    PROPERTIES.forEach(prop => fetchRealtimeData(prop.id, prop.containerId));
                     // Refresh every 5 seconds
-                    refreshInterval = setInterval(fetchRealtimeData, 5000);
+                    refreshInterval = setInterval(() => {
+                        PROPERTIES.forEach(prop => fetchRealtimeData(prop.id, prop.containerId));
+                    }, 5000);
                 } else {
                     showError('Failed to get access token: ' + (data.error || 'Unknown error'));
                 }
@@ -257,9 +285,14 @@
             });
         }
 
-        function fetchRealtimeData() {
-            if (!accessToken) return;
+        function fetchRealtimeData(propertyId, containerId) {
+            if (!accessToken) {
+                console.log('No access token');
+                return;
+            }
 
+            console.log('Fetching realtime data for', propertyId);
+            const API_ENDPOINT = 'https://analyticsdata.googleapis.com/v1beta/properties/' + propertyId + ':runRealtimeReport';
             const body = {
                 metrics: [
                     { name: 'activeUsers' }
@@ -293,11 +326,12 @@
                 return res.json();
             })
             .then(data => {
+                console.log('API Response:', data);
                 if (data) {
                     if (data.error) {
                         showError('API Error: ' + data.error.message);
                     } else {
-                        renderData(data);
+                        renderData(data, containerId);
                     }
                 }
             })
@@ -307,30 +341,24 @@
             });
         }
 
-        function renderData(data) {
-            const totalActiveUsers = data.totals?.[0]?.metricValues?.[0]?.value || '0';
+        function renderData(data, containerId) {
+            let totalActiveUsers = '0';
+            if (data.rows && data.rows[0]) {
+                totalActiveUsers = data.rows[0].metricValues?.[0]?.value || '0';
+            }
+            console.log('Active users for', containerId, ':', totalActiveUsers);
 
             let html = `
-                <div class="card">
-                    <h2>Active Users (Last 29 min)</h2>
-                    <div class="metric-value">${totalActiveUsers}</div>
-                    <div class="metric-label">Real-time visitors</div>
-                    <div class="refresh-time">Updated ${new Date().toLocaleTimeString()}</div>
-                </div>
-
-                <div class="card">
-                    <h2>Realtime Status</h2>
-                    <div style="padding: 20px 0;">
-                        <div style="font-size: 14px; color: #666; line-height: 1.8;">
-                            <div>✅ Dashboard connected</div>
-                            <div>✅ GA4 API responding</div>
-                            <div>✅ Auto-refreshing every 5 seconds</div>
-                        </div>
-                    </div>
-                </div>
+                <h2>Active Users (Last 29 min)</h2>
+                <div class="metric-value">${totalActiveUsers}</div>
+                <div class="metric-label">Real-time visitors</div>
+                <div class="refresh-time">Updated ${new Date().toLocaleTimeString()}</div>
             `;
 
-            document.getElementById('content').innerHTML = html;
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = html;
+            }
         }
 
         function showError(msg) {
