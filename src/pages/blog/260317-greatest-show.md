@@ -3,7 +3,7 @@ layout: ../../layouts/BlogPost.astro
 title: "Greatest Show"
 date: "2026-03-17"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/260317-greatest-show/R148_20260104_Tampa_Geo_06300.jpg"
-coverPosition: "center"
+coverPosition: "center 20%"
 description: "Two weeks of shooting the Ringling Bros. circus at winter quarters — collaborating with every department, building out imagery for their upcoming tour."
 columns: 3
 images:
