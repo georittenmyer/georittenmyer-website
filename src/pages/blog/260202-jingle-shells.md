@@ -5,7 +5,7 @@ date: "2026-02-02"
 cover: "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/260202-jingle-shells/R148_20251228_FES_Geo_09099.jpg"
 coverPosition: "center 50%"
 description: "A last-minute holiday shoot brought the whole family to Florida — and a little unexpected sunshine between jobs."
-columns: 3
+columns: 2
 images:
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/260202-jingle-shells/R148_20251228_FES_Geo_09096-Pano.jpg"
   - "https://pub-96bec037fb464079bf53d3d0e9c84dcf.r2.dev/src/images/blog/260202-jingle-shells/R148_20251225_FES_Geo_09038.jpg"
